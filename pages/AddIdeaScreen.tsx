@@ -26,9 +26,9 @@ const AddIdeaScreen = ({ navigation }: Props) => {
       <View>
         <Pressable
           style={buttonStyles.button}
-          onPress={() => navigation.navigate("PeopleScreen")}
+          onPress={() => navigation.navigate("IdeaScreen")}
         >
-          <Text style={buttonStyles.buttonText}>{"People Screen"}</Text>
+          <Text style={buttonStyles.buttonText}>{"Save Idea"}</Text>
         </Pressable>
       </View>
     </SafeAreaView>

@@ -20,30 +20,10 @@ type Props = {
 const PeopleScreen = ({ navigation }: Props) => {
   const {} = useMyData();
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //       <Button
-  //         onPress={() => navigation.navigate("AddPerson")}
-  //         title="Add"
-  //         color="#007AFF"
-  //       />
-  //     ),
-  //   });
-  // }, [navigation]);
+
 
   return (
     <SafeAreaView style={textStyles.textContainer}>
-      {/* {navigation.setOptions({
-        headerRight: () => (
-          <Pressable
-            onPress={() => navigation.navigate("AddPersonScreen")}
-            style={headerStyles.headerRightButton}
-          >
-            <Text style={headerStyles.headerText}>Add Person</Text>
-          </Pressable>
-        ),
-      })} */}
       <HeaderRightButton navigation={navigation} screen={"AddPersonScreen"} buttonName={"Add Person"}/>
       <View>
         <Text style={textStyles.h2}>People List</Text>

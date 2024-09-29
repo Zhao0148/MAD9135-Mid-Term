@@ -8,14 +8,14 @@ type Props = {
   buttonName?: string;
 };
 
-const HeaderRightButton = ({ navigation, screen, buttonName }: Props) => {
+const HeaderLeftButton = ({ navigation, screen, buttonName }: Props) => {
   return (
     <Text>
       {navigation.setOptions({
-        headerRight: () => (
+        headerLeft: () => (
           <Pressable
             onPress={() => navigation.navigate(screen)}
-            style={headerStyles.headerRightButton}
+            // style={headerStyles.headerLeftButton}
           >
             <Text style={headerStyles.headerText}>{buttonName}</Text>
           </Pressable>
@@ -25,4 +25,4 @@ const HeaderRightButton = ({ navigation, screen, buttonName }: Props) => {
   );
 };
 
-export default HeaderRightButton;
+export default HeaderLeftButton;

@@ -35,6 +35,7 @@ export const textStyles = StyleSheet.create({
     alignSelf: "flex-start",
     marginHorizontal: 15,
     display: "flex",
+    marginTop: 10,
   },
 });
 
@@ -80,6 +81,12 @@ export const headerStyles = StyleSheet.create({
   headerRightButton:{
     backgroundColor: "#fff",
       marginRight: 25,
+      borderRadius: 6,
+      paddingHorizontal: 10,
+    },
+  headerLeftButton:{
+    backgroundColor: "#fff",
+      marginLeft: 25,
       borderRadius: 6,
       paddingHorizontal: 10,
     },

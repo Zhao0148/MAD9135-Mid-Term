@@ -13,6 +13,7 @@ import {
 import { buttonStyles } from "../styles";
 import { useMyData } from "../Providers";
 import HeaderRightButton from "../components/headerRightButton";
+import HeaderLeftButton from "../components/headerLeftButton";
 
 type Props = {
   navigation: any;
@@ -24,6 +25,8 @@ const AddPersonScreen = ({ navigation }: Props) => {
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
+      {/* <HeaderBackButton /> */}
+      {/* <HeaderLeftButton navigation={navigation} screen={"PeopleScreen"} buttonName={"People"}/> */}
       <View>
         <Pressable
           style={buttonStyles.button}

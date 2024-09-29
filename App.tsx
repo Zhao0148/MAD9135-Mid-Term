@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddIdeaScreen from "./pages/AddIdeaScreen";
@@ -6,13 +6,18 @@ import AddPersonScreen from "./pages/AddPersonScreen";
 import PeopleScreen from "./pages/PeopleScreen";
 import IdeaScreen from "./pages/IdeaScreen";
 import { MyDataProvider } from "./Providers";
+import { headerStyles } from "./styles";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createNativeStackNavigator();
 function Root() {
   return (
-    <Drawer.Navigator>
-      <Stack.Screen name="PeopleScreen" component={PeopleScreen} />
+    <Drawer.Navigator           screenOptions={{
+      headerStyle: { backgroundColor: "indigo" },
+      headerTintColor: "white",
+    }}>
+      <Stack.Screen name="PeopleScreen" component={PeopleScreen}  />
       <Stack.Screen name="IdeaScreen" component={IdeaScreen} />
     </Drawer.Navigator>
   );
@@ -25,6 +30,22 @@ export default function App() {
           screenOptions={{
             headerStyle: { backgroundColor: "indigo" },
             headerTintColor: "white",
+            headerTitleAlign: "center",
+            // header:({options,route}) => (
+            //   <View style={{backgroundColor: "indigo"}}>
+            //     <Text style={{color: "white"}}>{route.name}</Text>
+            //   </View>
+            // )
+            headerLeft: (props) => (
+              // <Pressable
+              // style={headerStyles.headerLeftButton}
+              //   {...props}
+              //   onPress={() => {
+              //     // Do something
+              //   }}
+              // />
+              <HeaderBackButton {...props}  onPress={() => {}} />
+            ),
           }}
           initialRouteName="Home"
         >

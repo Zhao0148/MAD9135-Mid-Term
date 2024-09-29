@@ -14,26 +14,37 @@ import { buttonStyles } from "../styles";
 import { useMyData } from "../Providers";
 import HeaderRightButton from "../components/headerRightButton";
 type Props = {
-    navigation: any;
-    route: any;
-}
+  navigation: any;
+  route: any;
+};
 
-const IdeaScreen = ({navigation}: Props) => {
+const IdeaScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView
-    style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-  >
-          <HeaderRightButton navigation={navigation} screen={"AddIdeaScreen"} buttonName={"Add Idea"}/>
-    <View>
-      <Pressable
-        style={buttonStyles.button}
-        onPress={() => navigation.navigate("AddPersonScreen")}
-      >
-        <Text style={buttonStyles.buttonText}>{"Add Person Screen"}</Text>
-      </Pressable>
-    </View>
-  </SafeAreaView>
-  )
-}
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
+      <HeaderRightButton
+        navigation={navigation}
+        screen={"AddIdeaScreen"}
+        buttonName={"Add Idea"}
+      />
+      {/* {navigation.setOptions({
+        headerRight: () => (
+          <Pressable onPress={() => navigation.navigate(screen)}>
+            <Text>{"hello"}</Text>
+          </Pressable>
+        ),
+      })} */}
+      <View>
+        <Pressable
+          style={buttonStyles.button}
+          onPress={() => navigation.navigate("AddPersonScreen")}
+        >
+          <Text style={buttonStyles.buttonText}>{"Add Person Screen"}</Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
+  );
+};
 
-export default IdeaScreen
+export default IdeaScreen;
