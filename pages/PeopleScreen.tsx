@@ -1,6 +1,4 @@
-// PeopleScreen - list the name and date of birth of each person from the global state.
-
-import React from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Button,
@@ -10,7 +8,9 @@ import {
   View,
   Pressable,
 } from "react-native";
-import { buttonStyles } from "../styles";
+import { buttonStyles, headerStyles, textStyles } from "../styles";
+import { useMyData } from "../Providers";
+import HeaderRightButton from "../components/headerRightButton";
 
 type Props = {
   navigation: any;
@@ -18,10 +18,36 @@ type Props = {
 };
 
 const PeopleScreen = ({ navigation }: Props) => {
+  const {} = useMyData();
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <Button
+  //         onPress={() => navigation.navigate("AddPerson")}
+  //         title="Add"
+  //         color="#007AFF"
+  //       />
+  //     ),
+  //   });
+  // }, [navigation]);
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
+    <SafeAreaView style={textStyles.textContainer}>
+      {/* {navigation.setOptions({
+        headerRight: () => (
+          <Pressable
+            onPress={() => navigation.navigate("AddPersonScreen")}
+            style={headerStyles.headerRightButton}
+          >
+            <Text style={headerStyles.headerText}>Add Person</Text>
+          </Pressable>
+        ),
+      })} */}
+      <HeaderRightButton navigation={navigation} screen={"AddPersonScreen"} buttonName={"Add Person"}/>
+      <View>
+        <Text style={textStyles.h2}>People List</Text>
+      </View>
       <View>
         <Pressable
           style={buttonStyles.button}

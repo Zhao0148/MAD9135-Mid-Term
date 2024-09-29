@@ -11,6 +11,9 @@ import {
   Pressable,
 } from "react-native";
 import { buttonStyles } from "../styles";
+import { useMyData } from "../Providers";
+import HeaderRightButton from "../components/headerRightButton";
+
 type Props = {
   navigation: any;
   route: any;
@@ -24,9 +27,9 @@ const AddPersonScreen = ({ navigation }: Props) => {
       <View>
         <Pressable
           style={buttonStyles.button}
-          onPress={() => navigation.navigate("AddIdeaScreen")}
+          onPress={() => navigation.navigate("Root")}
         >
-          <Text style={buttonStyles.buttonText}>{"Add Idea Page"}</Text>
+          <Text style={buttonStyles.buttonText}>{"Save"}</Text>
         </Pressable>
       </View>
     </SafeAreaView>

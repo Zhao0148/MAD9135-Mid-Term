@@ -11,7 +11,8 @@ import {
   Pressable,
 } from "react-native";
 import { buttonStyles } from "../styles";
-
+import { useMyData } from "../Providers";
+import HeaderRightButton from "../components/headerRightButton";
 type Props = {
     navigation: any;
     route: any;
@@ -22,6 +23,7 @@ const IdeaScreen = ({navigation}: Props) => {
     <SafeAreaView
     style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
   >
+          <HeaderRightButton navigation={navigation} screen={"AddIdeaScreen"} buttonName={"Add Idea"}/>
     <View>
       <Pressable
         style={buttonStyles.button}

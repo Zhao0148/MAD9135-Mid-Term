@@ -7,11 +7,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  
 });
 
 export const textStyles = StyleSheet.create({
   h2: {
-    color: "white",
+    color: "black",
     fontFamily: "monospace",
     fontSize: 40,
     textAlign: "center",
@@ -29,7 +30,12 @@ export const textStyles = StyleSheet.create({
     paddingBottom: 10,
     fontFamily: "monospace",
     
-  }
+  },  textContainer: {
+    flexDirection: "column",
+    alignSelf: "flex-start",
+    marginHorizontal: 15,
+    display: "flex",
+  },
 });
 
 export const buttonStyles = StyleSheet.create({
@@ -61,10 +67,26 @@ export const buttonStyles = StyleSheet.create({
     right: 0,
    
   },
-  uselessButton:{
 
-
-
-  }
 });
 
+export const headerStyles = StyleSheet.create({
+  header: {
+    backgroundColor: "#26653A",
+  },
+  headerTitle: {
+    color: "white",
+  },
+  headerRightButton:{
+    backgroundColor: "#fff",
+      marginRight: 25,
+      borderRadius: 6,
+      paddingHorizontal: 10,
+    },
+  headerText:{
+    color: "black",
+    fontSize: 16,
+    textAlign: "center",
+    padding: 10,
+  }
+});

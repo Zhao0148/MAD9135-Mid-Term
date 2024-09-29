@@ -11,27 +11,28 @@ import {
   Pressable,
 } from "react-native";
 import { buttonStyles } from "../styles";
+import { useMyData } from "../Providers";
 
 type Props = {
-    navigation: any;
-    route: any;
-}
+  navigation: any;
+  route: any;
+};
 
-const AddIdeaScreen = ({navigation}: Props) => {
+const AddIdeaScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView
-    style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-  >
-    <View>
-      <Pressable
-        style={buttonStyles.button}
-        onPress={() => navigation.navigate("PeopleScreen")}
-      >
-        <Text style={buttonStyles.buttonText}>{"People Screen"}</Text>
-      </Pressable>
-    </View>
-  </SafeAreaView>
-  )
-}
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
+      <View>
+        <Pressable
+          style={buttonStyles.button}
+          onPress={() => navigation.navigate("PeopleScreen")}
+        >
+          <Text style={buttonStyles.buttonText}>{"People Screen"}</Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
+  );
+};
 
-export default AddIdeaScreen
+export default AddIdeaScreen;

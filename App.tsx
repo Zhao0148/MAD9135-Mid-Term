@@ -5,25 +5,37 @@ import AddIdeaScreen from "./pages/AddIdeaScreen";
 import AddPersonScreen from "./pages/AddPersonScreen";
 import PeopleScreen from "./pages/PeopleScreen";
 import IdeaScreen from "./pages/IdeaScreen";
+import { MyDataProvider } from "./Providers";
 
 const Stack = createNativeStackNavigator();
-
+const Drawer = createNativeStackNavigator();
+function Root() {
+  return (
+    <Drawer.Navigator>
+      <Stack.Screen name="PeopleScreen" component={PeopleScreen} />
+      <Stack.Screen name="IdeaScreen" component={IdeaScreen} />
+    </Drawer.Navigator>
+  );
+}
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: "indigo" },
-          headerTintColor: "white",
-        }}
-        initialRouteName="Home"
-      >
-        <Stack.Screen name="PeopleScreen" component={PeopleScreen}  />
-        <Stack.Screen name="AddPersonScreen" component={AddPersonScreen} />
-        <Stack.Screen name="AddIdeaScreen" component={AddIdeaScreen} />
-        <Stack.Screen name="IdeaScreen" component={IdeaScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <MyDataProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: "indigo" },
+            headerTintColor: "white",
+          }}
+          initialRouteName="Home"
+        >
+          <Stack.Screen name="Root" component={Root}   options={{ headerShown: false }}/>
+          <Stack.Screen name="AddPersonScreen" component={AddPersonScreen} />
+          <Stack.Screen name="AddIdeaScreen" component={AddIdeaScreen} />
+          {/* <Stack.Screen name="PeopleScreen" component={PeopleScreen}  />
+        <Stack.Screen name="IdeaScreen" component={IdeaScreen} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MyDataProvider>
   );
 }
 
