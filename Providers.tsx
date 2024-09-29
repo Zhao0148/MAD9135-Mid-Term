@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type DataType = any[]; // You might want to replace 'any' with a more specific type
+type DataType = any[]; 
 type ContextType = [DataType, (list: DataType) => Promise<void>];
 
 const MyDataContext = createContext<ContextType | undefined>(undefined);

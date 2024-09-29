@@ -1,21 +1,23 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#181818",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    // marginTop: 16,
+    marginHorizontal: 16,
+    // justifyContent: "center",
   },
-  
 });
 
 export const textStyles = StyleSheet.create({
   h2: {
     color: "black",
     fontFamily: "monospace",
-    fontSize: 40,
+    fontSize: 32,
     textAlign: "center",
+    // paddingVertical: 16,
+    marginVertical: 16,
   },
   h3: {
     paddingTop: 4,
@@ -24,13 +26,14 @@ export const textStyles = StyleSheet.create({
     paddingBottom: 10,
     fontFamily: "monospace",
   },
-  p:{
-    color: "white",
+  p: {
+    color: "grey",
     fontSize: 16,
     paddingBottom: 10,
     fontFamily: "monospace",
-    
-  },  textContainer: {
+    marginVertical: 10,
+  },
+  textContainer: {
     flexDirection: "column",
     alignSelf: "flex-start",
     marginHorizontal: 15,
@@ -50,25 +53,22 @@ export const buttonStyles = StyleSheet.create({
     alignSelf: "center",
     marginRight: 8,
     marginLeft: 8,
-
   },
   buttonText: {
     color: "black",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    position: 'relative',
+    flexDirection: "row",
+    justifyContent: "center",
+    position: "relative",
     marginBottom: 10,
   },
   absoluteButton: {
-    position: 'absolute',
-    bottom: 0, 
-    left: 0,  
+    position: "absolute",
+    bottom: 0,
+    left: 0,
     right: 0,
-   
   },
-
 });
 
 export const headerStyles = StyleSheet.create({
@@ -78,22 +78,21 @@ export const headerStyles = StyleSheet.create({
   headerTitle: {
     color: "white",
   },
-  headerRightButton:{
+  headerRightButton: {
+    // backgroundColor: "#fff",
+    marginRight: 10,
+    color: "white",
+  },
+  headerLeftButton: {
     backgroundColor: "#fff",
-      marginRight: 25,
-      borderRadius: 6,
-      paddingHorizontal: 10,
-    },
-  headerLeftButton:{
-    backgroundColor: "#fff",
-      marginLeft: 25,
-      borderRadius: 6,
-      paddingHorizontal: 10,
-    },
-  headerText:{
+    marginLeft: 25,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+  },
+  headerText: {
     color: "black",
     fontSize: 16,
     textAlign: "center",
     padding: 10,
-  }
+  },
 });

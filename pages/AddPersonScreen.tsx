@@ -10,7 +10,7 @@ import {
   View,
   Pressable,
 } from "react-native";
-import { buttonStyles } from "../styles";
+import { buttonStyles, styles } from "../styles";
 import { useMyData } from "../Providers";
 import HeaderRightButton from "../components/headerRightButton";
 import HeaderLeftButton from "../components/headerLeftButton";
@@ -23,10 +23,9 @@ type Props = {
 const AddPersonScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    style={styles.container}
     >
-      {/* <HeaderBackButton /> */}
-      {/* <HeaderLeftButton navigation={navigation} screen={"PeopleScreen"} buttonName={"People"}/> */}
+
       <View>
         <Pressable
           style={buttonStyles.button}

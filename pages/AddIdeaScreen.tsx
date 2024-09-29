@@ -9,8 +9,9 @@ import {
   Text,
   View,
   Pressable,
+  TextInput,
 } from "react-native";
-import { buttonStyles } from "../styles";
+import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 
 type Props = {
@@ -20,13 +21,21 @@ type Props = {
 
 const AddIdeaScreen = ({ navigation }: Props) => {
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Text style={textStyles.h2}>{"Add Idea"}</Text>
+      </View>
+
+      <Text style={textStyles.p}>{"Gift Idea"}</Text>
+      <TextInput
+        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+        onChangeText={(text) => console.log(text)}
+        placeholder="Gift Idea"
+      />
       <View>
         <Pressable
           style={buttonStyles.button}
-          onPress={() => navigation.navigate("IdeaScreen")}
+          onPress={() => navigation.navigate("Ideas")}
         >
           <Text style={buttonStyles.buttonText}>{"Save Idea"}</Text>
         </Pressable>

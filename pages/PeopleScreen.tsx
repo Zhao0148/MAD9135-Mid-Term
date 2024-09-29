@@ -1,5 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import React from "react";
 import {
   Button,
   SafeAreaView,
@@ -24,14 +23,21 @@ const PeopleScreen = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={textStyles.textContainer}>
-      <HeaderRightButton navigation={navigation} screen={"AddPersonScreen"} buttonName={"Add Person"}/>
+      {/* <HeaderRightButton navigation={navigation} screen={"Add Person"} buttonName={"Add Person"}/> */}
+      {/* {navigation.setOptions({
+        headerRight: () => (
+          <Pressable onPress={() => navigation.navigate("Add Person")}>
+            <Text>{"Add Person"}</Text>
+          </Pressable>
+        ),
+      })} */}
       <View>
         <Text style={textStyles.h2}>People List</Text>
       </View>
       <View>
         <Pressable
-          style={buttonStyles.button}
-          onPress={() => navigation.navigate("IdeaScreen")}
+          // style={buttonStyles.button}
+          onPress={() => navigation.navigate("Ideas")}
         >
           <Text style={buttonStyles.buttonText}>{"Idea Page"}</Text>
         </Pressable>

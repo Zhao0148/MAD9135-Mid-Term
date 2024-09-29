@@ -23,24 +23,13 @@ const IdeaScreen = ({ navigation }: Props) => {
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
-      <HeaderRightButton
-        navigation={navigation}
-        screen={"AddIdeaScreen"}
-        buttonName={"Add Idea"}
-      />
-      {/* {navigation.setOptions({
-        headerRight: () => (
-          <Pressable onPress={() => navigation.navigate(screen)}>
-            <Text>{"hello"}</Text>
-          </Pressable>
-        ),
-      })} */}
       <View>
+        
         <Pressable
           style={buttonStyles.button}
-          onPress={() => navigation.navigate("AddPersonScreen")}
+          onPress={() => navigation.navigate("Add Idea")}
         >
-          <Text style={buttonStyles.buttonText}>{"Add Person Screen"}</Text>
+          <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text>
         </Pressable>
       </View>
     </SafeAreaView>
