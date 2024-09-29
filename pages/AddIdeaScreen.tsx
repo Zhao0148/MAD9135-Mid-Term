@@ -16,7 +16,7 @@ import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import IdeaTextInput from "../components/IdeaTextInput";
 import * as ImagePicker from "expo-image-picker";
-import Camera from "../components/Camera";
+import CameraComponent from "../components/Camera";
 
 
 // import { CameraType } from "expo-camera";
@@ -40,7 +40,7 @@ const AddIdeaScreen = ({ navigation }: Props) => {
 
       <Text style={textStyles.p}>{"Gift Idea"}</Text>
       <IdeaTextInput />
-      <Camera />
+      <CameraComponent />
       <View>
         <Pressable
           style={buttonStyles.button}
