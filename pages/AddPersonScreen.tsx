@@ -22,10 +22,7 @@ type Props = {
 
 const AddPersonScreen = ({ navigation }: Props) => {
   return (
-    <SafeAreaView
-    style={styles.container}
-    >
-
+    <SafeAreaView style={styles.container}>
       <View>
         <Pressable
           style={buttonStyles.button}

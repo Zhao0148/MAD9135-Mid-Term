@@ -1,6 +1,6 @@
 // AddIdeaScreen - add a new idea object inside the ideas array for a selected person.
 
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Button,
@@ -10,16 +10,28 @@ import {
   View,
   Pressable,
   TextInput,
+  Platform,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
+import IdeaTextInput from "../components/IdeaTextInput";
+import * as ImagePicker from "expo-image-picker";
+import Camera from "../components/Camera";
 
+
+// import { CameraType } from "expo-camera";
+// type CameraType = "back" | "front";
 type Props = {
   navigation: any;
   route: any;
 };
 
 const AddIdeaScreen = ({ navigation }: Props) => {
+  // const [image, setImage] = useState(null);
+
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -27,11 +39,8 @@ const AddIdeaScreen = ({ navigation }: Props) => {
       </View>
 
       <Text style={textStyles.p}>{"Gift Idea"}</Text>
-      <TextInput
-        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => console.log(text)}
-        placeholder="Gift Idea"
-      />
+      <IdeaTextInput />
+      <Camera />
       <View>
         <Pressable
           style={buttonStyles.button}
