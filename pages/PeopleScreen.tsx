@@ -44,11 +44,13 @@ const PeopleScreen = ({ navigation }: Props) => {
           data={people}
           renderItem={renderPerson}
           keyExtractor={(item) => item.id}
+
         />
       </View>
       <View>
         <Pressable
           // style={buttonStyles.button}
+
           onPress={() => navigation.navigate("Ideas")}
         >
           <Text style={buttonStyles.buttonText}>{"Idea Page"}</Text>

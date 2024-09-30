@@ -1,16 +1,20 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import { textStyles } from "../styles";
 import { Lightbulb } from "lucide-react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { router } from "expo-router";
 type Props = {
   people: {
     name: string;
     dob: string;
+    id: string;
   };
 };
-
+const route = useRoute();
+const navigation = useNavigation();
 const PeopleRenderComponent = ({ people }: Props) => {
-  const { name, dob } = people;
+  const { name, dob, id } = people;
   return (
     <View style={styles.personItem}>
       <View style={styles.textContainer}>
@@ -18,7 +22,18 @@ const PeopleRenderComponent = ({ people }: Props) => {
         <Text style={textStyles.customPersonParagraph}>{dob}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <Lightbulb style={styles.iconContainer} size={40} color={"#000"} />
+        <Pressable
+          onPress={() =>
+            router.push({
+              pathname: "Ideas",
+              params: {
+                token: id,
+              },
+            })
+          }
+        >
+          <Lightbulb style={styles.iconContainer} size={40} color={"#000"} />
+        </Pressable>
       </View>
     </View>
   );
@@ -40,8 +55,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0E0E0",
     marginVertical: 8,
   },
-  iconContainer:{
+  iconContainer: {
     maxWidth: 300,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
