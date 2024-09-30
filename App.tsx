@@ -26,7 +26,7 @@ function Root() {
         component={PeopleScreen}
         options={{
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("Add Person")}>
+            <Pressable onPress={() => navigation.navigate("AddPerson")}>
               <Text style={headerStyles.headerRightButton}>Add Person</Text>
             </Pressable>
           ),
@@ -37,7 +37,7 @@ function Root() {
         component={IdeaScreen}
         options={{
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("Add Idea")}>
+            <Pressable onPress={() => navigation.navigate("AddIdea")}>
               <Text style={headerStyles.headerRightButton}>Add Idea</Text>
             </Pressable>
           ),
@@ -64,12 +64,12 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Add Person"
+            name="AddPerson"
             component={AddPersonScreen}
             options={{ headerBackTitle: "People" }}
           />
           <Stack.Screen
-            name="Add Idea"
+            name="AddIdea"
             component={AddIdeaScreen}
             options={{ headerBackTitle: "People" }}
           />

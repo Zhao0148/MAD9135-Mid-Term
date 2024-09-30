@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { headerStyles, styles, textStyles } from "../styles";
-import { set } from "mongoose";
+
 
 type Props = {};
 

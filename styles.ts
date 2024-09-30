@@ -5,8 +5,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
     // marginTop: 16,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
     // justifyContent: "center",
+    width: "100%",
+  },
+  peopleContainer: {
+  
+    paddingHorizontal: 16, paddingVertical: 8,
+    width: "100%",
   },
 });
 
@@ -18,11 +24,19 @@ export const textStyles = StyleSheet.create({
     textAlign: "center",
     // paddingVertical: 16,
     marginVertical: 16,
+    marginHorizontal: 8,
   },
   h3: {
     paddingTop: 4,
     color: "white",
     fontSize: 16,
+    paddingBottom: 10,
+    fontFamily: "monospace",
+  },
+  h4: {
+    paddingTop: 4,
+    color: "black",
+    fontSize: 15,
     paddingBottom: 10,
     fontFamily: "monospace",
   },
@@ -40,6 +54,12 @@ export const textStyles = StyleSheet.create({
     display: "flex",
     marginTop: 10,
   },
+  customPersonParagraph:{
+    color: "grey",
+    fontSize: 16,
+    fontFamily: "monospace",
+    // marginVertical: 1,
+  }
 });
 
 export const buttonStyles = StyleSheet.create({
