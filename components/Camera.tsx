@@ -8,43 +8,90 @@ import {
   CameraPictureOptions,
 } from "expo-camera";
 import { CameraCapturedPicture } from "expo-camera/build/legacy/Camera.types";
-import React, { useRef, useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useMyData } from "../Providers";
+import { Dimensions } from "react-native";
+import { cameraStyles } from "../styles";
+const screenDimensions = Dimensions.get("screen");
 
-// import {Camera} from 'expo-camera';
 export default function CameraComponent() {
-  const [facing, setFacing] = useState<CameraType>("back");
-  const [permission, requestPermission] = useCameraPermissions();
-  const [ratio, setRatio] = useState<CameraRatio>("4:3");
-  const [cameraReady, setCameraReady] = useState<boolean>(false);
+  const [data, setData] = useMyData();
   const camera = useRef<CameraView>(null);
+  const [permission, requestPermission] = useCameraPermissions();
+  const [cameraReady, setCameraReady] = useState<boolean>(false);
+  const [facing, setFacing] = useState<CameraType>("back");
+  const [ratio, setRatio] = useState<CameraRatio>("4:3");
+  const [imageDimensions, setImageDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+  const [isTakingPicture, setIsTakingPicture] = useState<boolean>(false);
+  useEffect(() => {
+    calculateImageDimensions();
+  }, [ratio, facing]);
 
+  const calculateImageDimensions = async () => {
+    const screenWidth = screenDimensions.width;
+    const imageWidthPercentage = 0.7;
+    const imageWidth = Math.floor(screenWidth * imageWidthPercentage);
+    const aspectRatio = 4 / 3;
+    const imageHeight = Math.floor(imageWidth / aspectRatio);
+    const newImageDimensions = { width: imageWidth, height: imageHeight };
+
+    setImageDimensions(newImageDimensions);
+    setData([...data, { imageDimensions: newImageDimensions }]);
+  };
+  type PhotoOutput = CameraCapturedPicture | undefined;
   const takePicture = async () => {
-    const options: CameraPictureOptions = { quality: 0.5, exif: true };
-    if (camera && camera.current && cameraReady) {
-      const getPhotoSize = await camera.current.getAvailablePictureSizesAsync();
-      console.log(getPhotoSize);
-      const photo = await camera.current
-        .takePictureAsync(options)
-        .then(({ width, height, uri, base64, exif }) => {
-          console.log(uri);
-          console.log(width);
-          console.log(height);
-          console.log(exif);
-        });
-      console.log(photo);
+    try {
+      if (!cameraReady) {
+        console.log("Camera is not ready yet.");
+        return;
+      }
+      const options: CameraPictureOptions = {
+        quality: 0.5,
+        exif: true,
+      };
+
+      if (camera.current && cameraReady === true) {
+        // await camera.current.getAvailablePictureSizesAsync();
+        /* 
+        Changing the aspect ratio of the camera will change the resolution.
+        */
+        setIsTakingPicture(true);
+        const photo: PhotoOutput = await camera.current.takePictureAsync(
+          options
+        );
+        //photo exif is type MediaTrackSettings
+        if (photo) {
+          console.log(`photoWidth: ${photo?.width}`);
+          console.log(`photoHeight: ${photo?.height}`);
+          console.log("photo", photo);
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsTakingPicture(false);
     }
   };
+
   if (!permission) {
-    // Camera permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
     return (
-      <View style={styles.container}>
-        <Text style={styles.message}>
+      <View style={cameraStyles.container}>
+        <Text style={cameraStyles.message}>
           We need your permission to show the camera
         </Text>
         <Button onPress={requestPermission} title="grant permission" />
@@ -52,65 +99,34 @@ export default function CameraComponent() {
     );
   }
 
-  function toggleCameraFacing() {
-    setFacing((current) => (current === "back" ? "front" : "back"));
-  }
-
   return (
-    <View style={styles.container}>
+    <View style={cameraStyles.container}>
       <CameraView
         ref={camera}
-        style={styles.camera}
+        style={cameraStyles.camera}
         facing={facing}
         ratio={"4:3"}
-        // pictureSize={{ width: 640, height: 480 }}
-        
+        pictureSize={`${imageDimensions.height}x${imageDimensions.width}`}
         onCameraReady={() => {
           setCameraReady(true);
         }}
       >
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Text style={styles.text}>Take Picture</Text>
-          </TouchableOpacity>
+
+        <View style={cameraStyles.buttonContainer}>
+          {!isTakingPicture ? (
+            <TouchableOpacity style={cameraStyles.button} onPress={takePicture}>
+              <Text style={cameraStyles.text}>Take Picture</Text>
+            </TouchableOpacity>
+          ) : (
+            cameraReady && (
+              <View style={cameraStyles.loadingContainer}>
+                <ActivityIndicator size="large" color="#fff" />
+                <Text style={cameraStyles.loadingText}>Taking Picture...</Text>
+              </View>
+            )
+          )}
         </View>
       </CameraView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    width: "100%",
-  },
-  message: {
-    textAlign: "center",
-    paddingBottom: 10,
-  },
-  camera: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
-});

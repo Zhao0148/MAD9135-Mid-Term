@@ -1,17 +1,19 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect,ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type DataType = any[]; 
-type ContextType = [DataType, (list: DataType) => Promise<void>];
+type DataType = any; // types to be determined....
+type ContextType = any;
 
 const MyDataContext = createContext<ContextType | undefined>(undefined);
 
-export function MyDataProvider({ children }: { children: React.ReactNode }) {
+export function MyDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<DataType>([]);
 
   useEffect(() => {
+    AsyncStorage.clear();
     const loadData = async () => {
       try {
+      //  await AsyncStorage.clear();
         const storedData = await AsyncStorage.getItem('an_asyncstorage_key');
         if (storedData !== null) {
           setData(JSON.parse(storedData));
