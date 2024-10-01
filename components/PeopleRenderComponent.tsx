@@ -8,14 +8,14 @@ import { StackNavigationProp } from "../App";
 type Props = {
   people: {
     name: string;
-    dob: string;
+    dob: any;
     id: string;
   };
 };
 const PeopleRenderComponent = ({ people }: Props) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { name, dob, id } = people;
-  
+
   // console.log("PeopleRenderComponent", people);
 
   return (

@@ -41,7 +41,7 @@ const PeopleScreen = ({ navigation }: Props) => {
       </View>
       <View style={styles.peopleContainer}>
         <FlatList
-          data={sortedPeople}
+          data={mapPeopleArrayAndStringTheDate}
           renderItem={renderPerson}
           keyExtractor={(item) => item.id}
         />
@@ -118,17 +118,17 @@ const people = [
 ];
 
 const sortedPeople = people.sort((a, b) => {
-  if (
-    a.dob.getMonth() > b.dob.getMonth() &&
-    a.dob.getDate() > b.dob.getDate()
-  ) {
+  if (a.dob.getMonth() > b.dob.getMonth()) {
     return 1;
-  } else if (
-    a.dob.getMonth() < b.dob.getMonth() &&
-    a.dob.getDate() < b.dob.getDate()
-  ) {
+  } else if (a.dob.getMonth() < b.dob.getMonth()) {
     return -1;
   } else {
     return 0;
   }
 });
+const mapPeopleArrayAndStringTheDate = sortedPeople.map((person) => {
+  return {
+    ...person,
+    dob: person.dob.toDateString(),
+  };
+})

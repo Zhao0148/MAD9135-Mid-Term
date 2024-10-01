@@ -1,6 +1,6 @@
 // AddPersonScreen - add a new person object with a name, date of birth, and empty ideas array.
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Button,
@@ -21,8 +21,12 @@ type Props = {
 };
 
 const AddPersonScreen = ({ navigation }: Props) => {
-  const [text, onChangeText] = React.useState("Type here");
+  const [text, onChangeText] = useState("Type here");
   const [selectedDate, setSelectedDate] = useState("");
+
+  useEffect(() => {
+    console.log(`selectedDate: ${selectedDate}`);
+  },[]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,7 +43,7 @@ const AddPersonScreen = ({ navigation }: Props) => {
           />
         </View>
         <View>
-          <DatePicker
+          {/* <DatePicker
             onSelectedChange={(selectedDate) => {
               //do something with the string `selectedDate`
               //that comes from the datepicker
@@ -63,7 +67,8 @@ const AddPersonScreen = ({ navigation }: Props) => {
             selected={"1990-01-15"}
             maximumDate={new Date().toDateString()}
             mode="calendar"
-          ></DatePicker>
+          ></DatePicker> */}
+          <DatePicker onSelectedChange={(date) => setSelectedDate(date)} />
         </View>
       </View>
     </SafeAreaView>
