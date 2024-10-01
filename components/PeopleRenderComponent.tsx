@@ -3,7 +3,8 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { textStyles } from "../styles";
 import { Lightbulb } from "lucide-react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { router } from "expo-router";
+import { StackNavigationProp } from "../App";
+
 type Props = {
   people: {
     name: string;
@@ -11,10 +12,10 @@ type Props = {
     id: string;
   };
 };
-const route = useRoute();
-const navigation = useNavigation();
 const PeopleRenderComponent = ({ people }: Props) => {
+  const navigation = useNavigation<StackNavigationProp>();
   const { name, dob, id } = people;
+  console.log("PeopleRenderComponent", people);
   return (
     <View style={styles.personItem}>
       <View style={styles.textContainer}>
@@ -22,18 +23,9 @@ const PeopleRenderComponent = ({ people }: Props) => {
         <Text style={textStyles.customPersonParagraph}>{dob}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <Pressable
-          onPress={() =>
-            router.push({
-              pathname: "Ideas",
-              params: {
-                token: id,
-              },
-            })
-          }
-        >
-          <Lightbulb style={styles.iconContainer} size={40} color={"#000"} />
-        </Pressable>
+      <Pressable onPress={() => navigation.navigate('Ideas', { id })}>
+              <Lightbulb size={40} color="#000" />
+            </Pressable>
       </View>
     </View>
   );

@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation , NavigationProp} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddIdeaScreen from "./pages/AddIdeaScreen";
 import AddPersonScreen from "./pages/AddPersonScreen";
@@ -9,11 +9,19 @@ import { Pressable, Text } from "react-native";
 import { headerStyles, textStyles } from "./styles";
 import React from "react";
 
-const Stack = createNativeStackNavigator();
-const Drawer = createNativeStackNavigator();
+export type StackParamList = {
+  Home: undefined;
+  Ideas: { id: string };
+  AddPerson: undefined;
+  AddIdea: undefined;
+  Root: undefined;  
+};
 
+export type StackNavigationProp = NavigationProp<StackParamList>;
+const Stack = createNativeStackNavigator<StackParamList>();
+const Drawer = createNativeStackNavigator();
 function Root() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp>();
   return (
     <Drawer.Navigator
       screenOptions={{
