@@ -9,13 +9,14 @@ import {
   Text,
   View,
   Pressable,
+  FlatList,
 } from "react-native";
 import { buttonStyles } from "../styles";
 import { useMyData } from "../Providers";
 import { RouteParams } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
+import { styles } from "../styles";
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
 
 type Props = {
@@ -27,16 +28,24 @@ const IdeaScreen = ({ navigation }: Props) => {
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
   console.log(`IdeaScreen id: ${id}`);
+
+  const [data, setData] = useMyData();
+
+  
   return (
     <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      style={styles.container}
     >
       <View>
         <Pressable
           style={buttonStyles.button}
-          onPress={() => navigation.navigate("Add Idea")}
+          onPress={() => navigation.navigate("AddIdea")}
         >
-          <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text>
+          <View>
+            <Text style={buttonStyles.buttonText}>{id}</Text>
+
+          </View>
+          {/* <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text> */}
         </Pressable>
       </View>
     </SafeAreaView>

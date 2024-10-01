@@ -15,7 +15,9 @@ type Props = {
 const PeopleRenderComponent = ({ people }: Props) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { name, dob, id } = people;
-  console.log("PeopleRenderComponent", people);
+  
+  // console.log("PeopleRenderComponent", people);
+
   return (
     <View style={styles.personItem}>
       <View style={styles.textContainer}>

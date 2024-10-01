@@ -18,7 +18,6 @@ import IdeaTextInput from "../components/IdeaTextInput";
 import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
 
-
 // import { CameraType } from "expo-camera";
 // type CameraType = "back" | "front";
 type Props = {
@@ -28,9 +27,6 @@ type Props = {
 
 const AddIdeaScreen = ({ navigation }: Props) => {
   // const [image, setImage] = useState(null);
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,3 +50,4 @@ const AddIdeaScreen = ({ navigation }: Props) => {
 };
 
 export default AddIdeaScreen;
+

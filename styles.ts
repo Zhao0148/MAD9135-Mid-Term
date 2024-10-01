@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   
     paddingHorizontal: 16, paddingVertical: 8,
     width: "100%",
+    
   },
 });
 
@@ -24,7 +25,7 @@ export const textStyles = StyleSheet.create({
     textAlign: "center",
     // paddingVertical: 16,
     marginVertical: 16,
-    marginHorizontal: 8,
+    // marginHorizontal: 8,
   },
   h3: {
     paddingTop: 4,
