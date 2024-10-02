@@ -10,6 +10,7 @@ import {
   View,
   Pressable,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
@@ -23,7 +24,7 @@ type Props = {
 const AddPersonScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [data, saveData, clearAllData ] = useMyData();
+  const [data, saveData, clearAllData] = useMyData();
 
   const handleSavePerson = async () => {
     // await clearAllData("person");
@@ -51,7 +52,7 @@ const AddPersonScreen = ({ navigation }: Props) => {
   }, [onChangeText, text]);
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ScrollView>
         <View style={[styles.peopleContainer, { alignItems: "flex-start" }]}>
           <Text style={textStyles.h2}>Person</Text>
           <Text style={textStyles.p}>{"Person Name"}</Text>
@@ -70,13 +71,20 @@ const AddPersonScreen = ({ navigation }: Props) => {
             mode="calendar"
             onDateChange={(date) => setSelectedDate(date)}
           />
-          <Text>Selected Date: {selectedDate.toString()}</Text>
-        </View>
 
-        <Pressable style={buttonStyles.button} onPress={handleSavePerson}>
-          <Text style={buttonStyles.buttonText}>{"Save Person"}</Text>
-        </Pressable>
-      </View>
+          <View style={stylesInput.sideBySide}>
+            <Pressable
+              style={buttonStyles.button}
+              onPress={() => navigation.navigate("People")}
+            >
+              <Text style={buttonStyles.buttonText}>{"Cancel"}</Text>
+            </Pressable>
+            <Pressable style={buttonStyles.button} onPress={handleSavePerson}>
+              <Text style={buttonStyles.buttonText}>{"Save Person"}</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -87,5 +95,10 @@ const stylesInput = StyleSheet.create({
     height: 40,
     width: "100%",
     borderBottomWidth: 1,
+  },
+  sideBySide: {
+    // flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
 });
