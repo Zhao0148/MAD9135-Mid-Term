@@ -22,7 +22,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
     try {
       const storageKey = `${APP_NAME}${key}`;
       await AsyncStorage.setItem(storageKey, JSON.stringify(newData));
-      setData((prevData) => ({ ...prevData, [key]: newData }));
+      setData((prevData) => ({ ...prevData, [key]: newData ?? []}));
       console.log(`Storage key: ${key}:`, newData);
     } catch (error) {
       console.error(`Error saving data for ${key}:`, error);

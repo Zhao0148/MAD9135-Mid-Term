@@ -1,9 +1,9 @@
 ## PeopleScreen Features
 - [X] The data array loaded and shown needs to come from the global Context Provider.
-- [ ] If the array is empty then a message should be displayed on the screen asking the user to add a first Person.
+- [X] If the array is empty then a message should be displayed on the screen asking the user to add a first Person.
 - [X] When there is data available in the array, each Person should be displayed via a FlatList.
 - [X] Each item in the FlatList should show a full name plus the month and day from their date of birth.
-- [ ] The FlatList should be sorted by month first and then day. In other words, the People should be displayed in the order of their birthdays in the year.
+- [X] The FlatList should be sorted by month first and then day. In other words, the People should be displayed in the order of their birthdays in the year.
 - [X] Each item in the FlatList also needs to have an icon that the user can tap to navigate to the IdeaScreen.
 - [X] When you navigate from the PeopleScreen to the IdeaScreen you need to pass the id of the person through Route params.
 - [X] There needs to be a FAB or nav header link to navigate to the AddPersonScreen.
