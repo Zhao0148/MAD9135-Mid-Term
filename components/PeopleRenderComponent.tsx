@@ -15,19 +15,26 @@ type Props = {
 const PeopleRenderComponent = ({ people }: Props) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { name, dob, id } = people;
-
-  // console.log("PeopleRenderComponent", people);
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  };
+  const dateObject = new Date(dob);
+  const formattedDob = new Intl.DateTimeFormat("en-CA", options).format(
+    dateObject
+  );
 
   return (
     <View style={styles.personItem}>
       <View style={styles.textContainer}>
         <Text style={textStyles.h4}>{name}</Text>
-        <Text style={textStyles.customPersonParagraph}>{dob}</Text>
+        <Text style={textStyles.customPersonParagraph}>{formattedDob}</Text>
       </View>
       <View style={styles.iconContainer}>
-      <Pressable onPress={() => navigation.navigate('Ideas', { id })}>
-              <Lightbulb size={40} color="#000" />
-            </Pressable>
+        <Pressable onPress={() => navigation.navigate("Ideas", { id })}>
+          <Lightbulb size={40} color="#000" />
+        </Pressable>
       </View>
     </View>
   );

@@ -3,17 +3,20 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "flex-start",
+    // alignItems: "flex-start",
     // marginTop: 16,
     // marginHorizontal: 16,
     // justifyContent: "center",
+    height: "100%",
     width: "100%",
   },
   peopleContainer: {
-  
     paddingHorizontal: 16, paddingVertical: 8,
     width: "100%",
-    
+  },
+  marginHorizontal: {
+    marginHorizontal: 16,
+    marginVertical: 8,
   },
 });
 
@@ -24,7 +27,7 @@ export const textStyles = StyleSheet.create({
     fontSize: 32,
     textAlign: "center",
     // paddingVertical: 16,
-    marginVertical: 16,
+    // marginVertical: 16,
     // marginHorizontal: 8,
   },
   h3: {
