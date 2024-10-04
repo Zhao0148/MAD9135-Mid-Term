@@ -25,11 +25,11 @@ const AddPersonScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [data, saveData, clearAllData] = useMyData();
-
+  const [modalVisible, setModalVisible] = useState(false);
   const handleSavePerson = async () => {
     // await clearAllData("person");
     if (!text || !selectedDate) {
-      return;
+      setModalVisible(true);
     }
     const newPerson = {
       id: randomUUID(),

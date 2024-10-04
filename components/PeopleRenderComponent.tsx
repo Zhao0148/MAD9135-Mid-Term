@@ -4,6 +4,7 @@ import { textStyles } from "../styles";
 import { Lightbulb } from "lucide-react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "../App";
+import { useMyData } from "../Providers";
 
 type Props = {
   people: {
@@ -13,6 +14,9 @@ type Props = {
   };
 };
 const PeopleRenderComponent = ({ people }: Props) => {
+  const [clearAllData] = useMyData();
+
+// clearAllData("person");
   const navigation = useNavigation<StackNavigationProp>();
   const { name, dob, id } = people;
   const options: Intl.DateTimeFormatOptions = {
