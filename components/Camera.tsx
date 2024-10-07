@@ -18,37 +18,19 @@ import {
   View,
 } from "react-native";
 import { useMyData } from "../Providers";
-import { Dimensions } from "react-native";
+// import { Dimensions } from "react-native";
 import { cameraStyles } from "../styles";
-const screenDimensions = Dimensions.get("screen");
 
 export default function CameraComponent() {
-  const [data, setData] = useMyData();
+  const [data, saveData] = useMyData();
   const camera = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraReady, setCameraReady] = useState<boolean>(false);
   const [facing, setFacing] = useState<CameraType>("back");
-  const [ratio, setRatio] = useState<CameraRatio>("4:3");
-  const [imageDimensions, setImageDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
+  const [ratio, setRatio] = useState<CameraRatio>("16:9");
+
   const [isTakingPicture, setIsTakingPicture] = useState<boolean>(false);
-  useEffect(() => {
-    calculateImageDimensions();
-  }, [ratio, facing]);
 
-  const calculateImageDimensions = async () => {
-    const screenWidth = screenDimensions.width;
-    const imageWidthPercentage = 0.7;
-    const imageWidth = Math.floor(screenWidth * imageWidthPercentage);
-    const aspectRatio = 4 / 3;
-    const imageHeight = Math.floor(imageWidth / aspectRatio);
-    const newImageDimensions = { width: imageWidth, height: imageHeight };
-
-    setImageDimensions(newImageDimensions);
-    setData([...data, { imageDimensions: newImageDimensions }]);
-  };
   type PhotoOutput = CameraCapturedPicture | undefined;
   const takePicture = async () => {
     try {
@@ -62,7 +44,9 @@ export default function CameraComponent() {
       };
 
       if (camera.current && cameraReady === true) {
-        // await camera.current.getAvailablePictureSizesAsync();
+        const resolutionsArray =
+          await camera.current.getAvailablePictureSizesAsync();
+        console.log("resolutionsArray", resolutionsArray[1]);
         /* 
         Changing the aspect ratio of the camera will change the resolution.
         */
@@ -103,15 +87,17 @@ export default function CameraComponent() {
     <View style={cameraStyles.container}>
       <CameraView
         ref={camera}
-        style={cameraStyles.camera}
+        style={{
+          width: data.cameraSettings.imageDimensions.width,
+          height: data.cameraSettings.imageDimensions.height,
+        }}
         facing={facing}
         ratio={"4:3"}
-        pictureSize={`${imageDimensions.height}x${imageDimensions.width}`}
+        pictureSize={`3000x4000`}
         onCameraReady={() => {
           setCameraReady(true);
         }}
       >
-
         <View style={cameraStyles.buttonContainer}>
           {!isTakingPicture ? (
             <TouchableOpacity style={cameraStyles.button} onPress={takePicture}>

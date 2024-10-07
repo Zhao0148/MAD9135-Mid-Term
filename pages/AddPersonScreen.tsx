@@ -34,6 +34,7 @@ const AddPersonScreen = ({ navigation }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const handleSavePerson = async () => {
     // await clearAllData("person");
+    // await clearAllData("cameraSettings");
     if (!text || !selectedDate) {
       setModalVisible(true);
       return;

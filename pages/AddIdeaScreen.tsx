@@ -11,6 +11,7 @@ import {
   Pressable,
   TextInput,
   Platform,
+  Dimensions,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
@@ -24,10 +25,33 @@ type Props = {
   navigation: any;
   route: any;
 };
+const screenDimensions = Dimensions.get("screen");
 
 const AddIdeaScreen = ({ navigation }: Props) => {
   // const [image, setImage] = useState(null);
+  const [data, saveData] = useMyData();
+  useEffect(() => {
+    calculateImageDimensions();
+  }, []);
 
+  const calculateImageDimensions = async () => {
+    const screenWidth = screenDimensions.width;
+    const imageWidthPercentage = 0.7;
+    const imageWidth = Math.floor(screenWidth * imageWidthPercentage);
+    const aspectRatio = 9 / 16;
+    const imageHeight = Math.floor(imageWidth / aspectRatio);
+    const newImageDimensions = { width: imageWidth, height: imageHeight };
+
+    // setImageDimensions(newImageDimensions);
+    const currentCameraSettings = data.cameraSettings || [];
+    // const newCameraSettings = [
+    //   ...currentCameraSettings,
+    //   { imageDimensions: newImageDimensions },
+    // ];
+
+    saveData("cameraSettings", { imageDimensions: newImageDimensions });
+    console.log("CameraSettings!", data.cameraSettings);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -36,7 +60,9 @@ const AddIdeaScreen = ({ navigation }: Props) => {
 
       <Text style={textStyles.p}>{"Gift Idea"}</Text>
       <IdeaTextInput />
-      <CameraComponent />
+      {data?.cameraSettings && (
+        <CameraComponent />)
+      }
       <View>
         <Pressable
           style={buttonStyles.button}

@@ -13,7 +13,7 @@
 - [X] You can save the selected date as string or timestamp. See the notes in module 7.1 about doing this.
 - [X] Make sure that both the name and dob are provided before you save the person.
 - [X] After a successful save, navigate back to the PersonScreen.
-- [ ] If the save fails, show a Modal about the error instead of navigating back.
+- [X] If the save fails, show a Modal about the error instead of navigating back.
 - [X] The PersonScreen should show the updated list and include the newly created person after successfully saving.
 - [X] There should be a Save and a Cancel button. The Cancel button returns the user to the PersonScreen.
 - [X] Use KeyboardAvoidingView around each control in your form.

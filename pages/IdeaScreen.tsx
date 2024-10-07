@@ -30,7 +30,7 @@ const IdeaScreen = ({ navigation }: Props) => {
   console.log(`IdeaScreen id: ${id}`);
 
   const [data, setData] = useMyData();
-
+  
   
   return (
     <SafeAreaView
