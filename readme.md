@@ -16,7 +16,7 @@
 - [ ] If the save fails, show a Modal about the error instead of navigating back.
 - [X] The PersonScreen should show the updated list and include the newly created person after successfully saving.
 - [X] There should be a Save and a Cancel button. The Cancel button returns the user to the PersonScreen.
-- [ ] Use KeyboardAvoidingView around each control in your form.
+- [X] Use KeyboardAvoidingView around each control in your form.
 
 ## IdeaScreen Features
 - [ ] The IdeaScreen will display a list of all gift ideas for the selected person.

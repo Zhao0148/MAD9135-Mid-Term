@@ -11,11 +11,17 @@ import {
   Pressable,
   TextInput,
   ScrollView,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import DatePicker from "react-native-modern-datepicker";
 import { randomUUID } from "expo-crypto";
+import { modalStyles } from "../styles";
 type Props = {
   navigation: any;
   route: any;
@@ -25,11 +31,12 @@ const AddPersonScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [data, saveData, clearAllData] = useMyData();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const handleSavePerson = async () => {
     // await clearAllData("person");
     if (!text || !selectedDate) {
       setModalVisible(true);
+      return;
     }
     const newPerson = {
       id: randomUUID(),
@@ -52,39 +59,73 @@ const AddPersonScreen = ({ navigation }: Props) => {
   }, [onChangeText, text]);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={[styles.peopleContainer, { alignItems: "flex-start" }]}>
-          <Text style={textStyles.h2}>Person</Text>
-          <Text style={textStyles.p}>{"Person Name"}</Text>
-        </View>
-        <View style={styles.peopleContainer}>
-          <TextInput
-            style={stylesInput.input}
-            onChangeText={onChangeText}
-            value={text}
-            autoFocus={true}
-          />
-        </View>
-        <View style={styles.marginHorizontal}>
-          <DatePicker
-            onSelectedChange={(date) => setSelectedDate(date)}
-            mode="calendar"
-            onDateChange={(date) => setSelectedDate(date)}
-          />
-
-          <View style={stylesInput.sideBySide}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={modalStyles.modalPosition}>
+          <View style={modalStyles.modalContainer}>
+            <Text style={modalStyles.modalTitle}>{"Missing field"}</Text>
+            <Text style={modalStyles.modalText}>
+              {"Both the name and date of birth fields are required."}
+            </Text>
             <Pressable
-              style={buttonStyles.button}
-              onPress={() => navigation.navigate("People")}
+              style={[modalStyles.modalButton]}
+              onPress={() => setModalVisible(false)}
             >
-              <Text style={buttonStyles.buttonText}>{"Cancel"}</Text>
-            </Pressable>
-            <Pressable style={buttonStyles.button} onPress={handleSavePerson}>
-              <Text style={buttonStyles.buttonText}>{"Save Person"}</Text>
+              <Text style={modalStyles.modalAcknowledgement}>OK</Text>
             </Pressable>
           </View>
         </View>
-      </ScrollView>
+      </Modal>
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView>
+            <View
+              style={[styles.peopleContainer, { alignItems: "flex-start" }]}
+            >
+              <Text style={textStyles.h2}>Person</Text>
+              <Text style={textStyles.p}>{"Person Name"}</Text>
+            </View>
+            <View style={styles.peopleContainer}>
+              <TextInput
+                style={stylesInput.input}
+                onChangeText={onChangeText}
+                value={text}
+                autoFocus={true}
+              />
+            </View>
+            <View style={styles.marginHorizontal}>
+              <DatePicker
+                onSelectedChange={(date) => setSelectedDate(date)}
+                mode="calendar"
+                onDateChange={(date) => setSelectedDate(date)}
+              />
+
+              <View style={stylesInput.sideBySide}>
+                <Pressable
+                  style={buttonStyles.button}
+                  onPress={() => navigation.navigate("People")}
+                >
+                  <Text style={buttonStyles.buttonText}>{"Cancel"}</Text>
+                </Pressable>
+                <Pressable
+                  style={buttonStyles.button}
+                  onPress={handleSavePerson}
+                >
+                  <Text style={buttonStyles.buttonText}>{"Save Person"}</Text>
+                </Pressable>
+              </View>
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -97,8 +138,10 @@ const stylesInput = StyleSheet.create({
     borderBottomWidth: 1,
   },
   sideBySide: {
-    // flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
+  },
+  container: {
+    flex: 1,
   },
 });

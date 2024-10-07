@@ -161,3 +161,59 @@ export const cameraStyles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export const modalStyles = StyleSheet.create({
+  modalPosition: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 14,
+    alignItems: 'center',
+    width: 270,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    paddingTop: 20,
+  },
+  modalText: {
+    fontSize: 13,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#666',
+    paddingHorizontal: 20,
+  },
+  modalButton: {
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 12,
+    borderTopWidth: 0.4,
+    borderTopColor: '#ccc',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  modalAcknowledgement: {
+    fontSize: 13,
+    color: '#0E7AFE',
+    textAlign: 'center',
+    fontWeight: '600',
+    paddingHorizontal: 20,
+    
+  }
+})
+
+
