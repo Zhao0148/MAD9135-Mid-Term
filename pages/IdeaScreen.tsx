@@ -11,12 +11,14 @@ import {
   Pressable,
   FlatList,
 } from "react-native";
-import { buttonStyles } from "../styles";
+import { buttonStyles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import { RouteParams } from "expo-router";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
 import { styles } from "../styles";
+import ListItemIdeas from "../components/ListItem";
+import { Person } from "../types";
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
 
 type Props = {
@@ -27,26 +29,48 @@ type Props = {
 const IdeaScreen = ({ navigation }: Props) => {
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
-  console.log(`IdeaScreen id: ${id}`);
-
   const [data, setData] = useMyData();
-  
-  
-  return (
-    <SafeAreaView
-      style={styles.container}
-    >
-      <View>
-        <Pressable
-          style={buttonStyles.button}
-          onPress={() => navigation.navigate("AddIdea")}
-        >
-          <View>
-            <Text style={buttonStyles.buttonText}>{id}</Text>
+  const person = data?.person ?? [];
+  const getPersonNameById: Person = person.find((person: Person) => person.id === id);
+  console.log(`getPersonNameById`, getPersonNameById.name);
+  // console.log(`IdeaScreen id: ${id}`);
+  // let person = data?.person ?? [];
+  // if (data) {
+  //   console.log("personIdeas", person);
+  //   data.person = data.person.filter((person) => person.id === id);
+  //   // console.log("data.personInIdea", data.person);
+  // }
+  console.log("data?.people", data?.person);
+  // const renderIdeas = ({ item }: { item: Person }) => (
+  //   <ListItemIdeas people={item} />
+  // );
 
-          </View>
-          {/* <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text> */}
-        </Pressable>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={[styles.peopleContainer, { alignItems: "flex-start" }]}>
+        <Text
+          style={textStyles.h2}
+        >{`Ideas for ${getPersonNameById?.name}`}</Text>
+      </View>
+      <View style={styles.peopleContainer}>
+        {getPersonNameById?.ideas?.length !== 0 ? (
+          <Text>{`${getPersonNameById.ideas}`}</Text>
+        ) : (
+          <Text>{`There are currently no ideas for ${getPersonNameById?.name}`}</Text>
+        )}
+      </View>
+      <View>
+        <View>
+          {/* <FlatList 
+            data={data.person}
+            renderItem={renderIdeas}
+            keyExtractor={(item) => item.id}
+            style={{ maxHeight: 525 }}
+          /> */}
+
+          {/* <Text style={buttonStyles.buttonText}>{""}</Text> */}
+        </View>
+        {/* <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text> */}
       </View>
     </SafeAreaView>
   );

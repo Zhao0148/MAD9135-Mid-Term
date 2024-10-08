@@ -18,6 +18,8 @@
     "expo": "~51.0.28",
     "expo-camera": "~15.0.16",
     "expo-crypto": "^13.0.2",
+    "expo-image": "^1.13.0",
+    "expo-image-manipulator": "^12.0.5",
     "expo-image-picker": "~15.0.7",
     "expo-router": "^3.5.23",
     "expo-status-bar": "~1.12.1",

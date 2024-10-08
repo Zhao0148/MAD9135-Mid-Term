@@ -11,24 +11,19 @@ import {
 import { buttonStyles, headerStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import PeopleRenderComponent from "../components/PeopleRenderComponent";
-
+import { Person } from "../types";
 type Props = {
   navigation: any;
   route: any;
 };
-type Person = {
-  id: string;
-  name: string;
-  dob: Date;
-  ideas: String[];
-};
+
 const PeopleScreen = ({ navigation }: Props) => {
   const [data, setData] = useMyData();
   const [refreshing, setRefreshing] = useState(false);
   let person = data?.person ?? [];
   if (data) {
     data.person = person;
-    console.log("data.person", data.person);
+    // console.log("data.person", data.person);
     const sortedPeople = person.sort((a: Person, b: Person) => {
       const firstDate = new Date(a.dob).getTime();
       const secondDate = new Date(b.dob).getTime();
@@ -41,7 +36,7 @@ const PeopleScreen = ({ navigation }: Props) => {
   const renderPerson = ({ item }: { item: Person }) => (
     <PeopleRenderComponent people={item} />
   );
-  console.log("data.person", data.person);
+  console.log("data.personPeopleScreen", data.person);
   console.log(`personLength`, person.length);
   return (
     <SafeAreaView style={styles.container}>
