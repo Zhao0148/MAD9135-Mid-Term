@@ -89,12 +89,12 @@ const AddPersonScreen = ({ navigation }: Props) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView>
             <View
-              style={[styles.peopleContainer, { alignItems: "flex-start" }]}
+              style={[styles.paddingContainer, { alignItems: "flex-start" }]}
             >
               <Text style={textStyles.h2}>Person</Text>
               <Text style={textStyles.p}>{"Person Name"}</Text>
             </View>
-            <View style={styles.peopleContainer}>
+            <View style={styles.paddingContainer}>
               <TextInput
                 style={stylesInput.input}
                 onChangeText={onChangeText}

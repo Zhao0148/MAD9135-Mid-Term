@@ -47,12 +47,12 @@ const IdeaScreen = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.peopleContainer, { alignItems: "flex-start" }]}>
+      <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
         <Text
           style={textStyles.h2}
         >{`Ideas for ${getPersonNameById?.name}`}</Text>
       </View>
-      <View style={styles.peopleContainer}>
+      <View style={styles.paddingContainer}>
         {getPersonNameById?.ideas?.length !== 0 ? (
           <Text>{`${getPersonNameById.ideas}`}</Text>
         ) : (

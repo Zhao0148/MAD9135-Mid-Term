@@ -14,13 +14,13 @@ import {
   Dimensions,
   Image,
   useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import IdeaTextInput from "../components/IdeaTextInput";
 import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
-
 
 // import { CameraType } from "expo-camera";
 // type CameraType = "back" | "front";
@@ -35,7 +35,6 @@ const AddIdeaScreen = ({ navigation }: Props) => {
     calculateImageDimensions();
   }, []);
 
-
   const calculateImageDimensions = async () => {
     const screenWidth = screen?.width;
     const imageWidthPercentage = 0.7;
@@ -47,15 +46,16 @@ const AddIdeaScreen = ({ navigation }: Props) => {
     saveData("cameraImageDimension", { imageDimensions: newImageDimensions });
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ScrollView>
+       <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
         <Text style={textStyles.h2}>{"Add Idea"}</Text>
       </View>
+      <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
+      <Text>{"Gift Idea"}</Text>
+      </View>
 
-
-      <Text style={textStyles.p}>{"Gift Idea"}</Text>
 
       {data?.cameraImageDimension && <CameraComponent />}
       <View>
@@ -65,8 +65,8 @@ const AddIdeaScreen = ({ navigation }: Props) => {
         >
           <Text style={buttonStyles.buttonText}>{"Save Idea"}</Text>
         </Pressable> */}
-
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

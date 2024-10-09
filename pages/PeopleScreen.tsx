@@ -31,19 +31,19 @@ const PeopleScreen = ({ navigation }: Props) => {
       return firstDate - secondDate;
     });
 
-    console.log(`Sorted people`, sortedPeople);
+    // console.log(`Sorted people`, sortedPeople);
   }
   const renderPerson = ({ item }: { item: Person }) => (
     <PeopleRenderComponent people={item} />
   );
-  console.log("data.personPeopleScreen", data.person);
-  console.log(`personLength`, person.length);
+  // console.log("data.personPeopleScreen", data.person);
+  // console.log(`personLength`, person.length);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.peopleContainer, { alignItems: "flex-start" }]}>
+      <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
         <Text style={textStyles.h2}>People List</Text>
       </View>
-      <View style={styles.peopleContainer}>
+      <View style={styles.paddingContainer}>
         {data?.person?.length !== 0 ? (
           <FlatList
             data={person}

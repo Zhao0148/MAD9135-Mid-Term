@@ -1,7 +1,14 @@
-import { CameraType, useCameraPermissions, CameraView } from "expo-camera";
+import {
+  CameraType,
+  useCameraPermissions,
+  CameraView,
+  Camera,
+  PermissionResponse,
+  PermissionStatus,
+} from "expo-camera";
 import type { CameraPictureOptions, ImageSize } from "expo-camera";
 import { Image } from "expo-image";
-
+import { CameraIcon } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -12,14 +19,16 @@ import {
   View,
   TextInput,
   Pressable,
+  ScrollView,
 } from "react-native";
 import { useMyData } from "../Providers";
 import * as ImagePicker from "expo-image-picker";
-import { buttonStyles, cameraStyles } from "../styles";
+import { buttonStyles, cameraStyles, styles } from "../styles";
 import * as ImageManipulator from "expo-image-manipulator";
 import { ImagePreview, ManipulatedImage } from "../types";
-
+import { Audio, InterruptionModeAndroid } from 'expo-av';
 export default function CameraComponent() {
+  const [status, requestPermission] = useCameraPermissions();
   const [currentPictureResolution, setCurrentPictureResolution] =
     useState<ImageSize>({
       width: 1080,
@@ -27,38 +36,32 @@ export default function CameraComponent() {
     });
   const [data, saveData] = useMyData();
   const camera = useRef<CameraView | null>(null);
-  const [permission, requestPermission] = useCameraPermissions();
   const [cameraReady, setCameraReady] = useState<boolean>(false);
   const [facing, setFacing] = useState<CameraType>("back");
-  const [pictureResolution, setPictureResolution] = useState<string[]>([]);
   const [isTakingPicture, setIsTakingPicture] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
   const [giftDescription, setGiftDescription] = useState("");
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
+  const [hasPermission, setHasPermission] = useState<boolean>(false);
+
 
   useEffect(() => {
-    savePicDimensions();
-  }, [currentPictureResolution]);
 
-  const savePicDimensions = async () => {
-    await saveData("currentImageDimension", {
-      imageDimensions: currentPictureResolution,
-    });
-    console.log(
-      "currentImageDimension",
-      data.cameraImageDimension.imageDimensions
-    );
-  };
+  }, []);
 
+  
   const takePicture = async () => {
     try {
+      
       if (!cameraReady) {
         console.log("Camera is not ready yet.");
         return;
       }
+      
       const options: CameraPictureOptions = {
         quality: 1,
         exif: true,
+        // shutterSound: false, // expo implemented but not released.
       };
 
       if (camera.current && cameraReady === true) {
@@ -71,18 +74,17 @@ export default function CameraComponent() {
         });
         console.log("resolutionForVertical", resolutionForVertical);
         const preferredResolution =
-          resolutionForVertical[12] || resolutionForVertical[0];
-        // setPictureResolution(
-        //   resolutionForVertical.map((res) => `${res.width}x${res.height}`)
-        // );
+          resolutionForVertical[1] || resolutionForVertical[0];
         console.log("preferredResolution", preferredResolution);
         setCurrentPictureResolution(preferredResolution);
         await saveData("currentImageDimension", {
           imageDimensions: preferredResolution,
         });
         setIsTakingPicture(true);
+        
         await camera.current.takePictureAsync(options).then(async (photo) => {
           if (photo) {
+            console.log("photo2", photo);
             let rotatedPhotoUri = photo.uri;
             if (photo.exif && photo.exif.Orientation) {
               const rotation = correctOrientation(photo.exif.Orientation);
@@ -99,7 +101,7 @@ export default function CameraComponent() {
                         },
                       },
                     ],
-                    { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+                    { compress: 1, format: ImageManipulator.SaveFormat.PNG }
                   );
                 rotatedPhotoUri = manipulatedImage.uri;
                 console.log("manipulatedImage", manipulatedImage);
@@ -107,20 +109,23 @@ export default function CameraComponent() {
             }
             setImagePreview({ uri: rotatedPhotoUri });
           }
-        });
+        }).catch(err => console.warn(err.message));;
       }
     } catch (error) {
       console.log("error", error);
     } finally {
       setIsTakingPicture(false);
+
     }
   };
 
-  if (!permission) {
+  const cameraWidth = data.cameraImageDimension?.imageDimensions.width;
+  const cameraHeight = data.cameraImageDimension?.imageDimensions.height;
+  if (!status) {
     return <View />;
   }
 
-  if (!permission.granted) {
+  if (status.status !== PermissionStatus.GRANTED) {
     return (
       <View style={cameraStyles.container}>
         <Text style={cameraStyles.message}>
@@ -130,12 +135,8 @@ export default function CameraComponent() {
       </View>
     );
   }
-
-  const cameraWidth = data.cameraImageDimension?.imageDimensions.width;
-  const cameraHeight = data.cameraImageDimension?.imageDimensions.height;
-
   return (
-    <View style={cameraStyles.mainContainer}>
+    <View style={styles.paddingContainer}>
       <TextInput
         style={cameraStyles.textInput}
         onChangeText={(text) => setGiftDescription(text)}
@@ -161,12 +162,14 @@ export default function CameraComponent() {
           />
         ) : (
           <CameraView
+          animateShutter={false}
             ref={camera}
             style={[
               cameraStyles.cameraView,
               { width: cameraWidth, height: cameraHeight },
             ]}
             facing={facing}
+          
             pictureSize={`${cameraWidth}x${cameraHeight}`}
             onCameraReady={() => {
               setCameraReady(true);
@@ -225,17 +228,27 @@ export default function CameraComponent() {
           </TouchableOpacity>
         </View>
       ) : (
-        <View>
-          <TouchableOpacity style={cameraStyles.saveButton} onPress={takePicture}>
-            <Text style={cameraStyles.text}>Take Picture</Text>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "skyblue",
+              borderRadius: 50,
+              width: 50,
+              height: 50,
+              marginBottom: 20,
+            }}
+            onPress={takePicture}
+          >
+            <CameraIcon size={24} color={"black"} />
+            {/* <Text style={cameraStyles.text}>Take Picture</Text> */}
           </TouchableOpacity>
         </View>
       )}
     </View>
   );
 }
-
-
 
 function correctOrientation(orientation: number) {
   switch (orientation) {

@@ -7,10 +7,11 @@ export const styles = StyleSheet.create({
     // marginTop: 16,
     // marginHorizontal: 16,
     // justifyContent: "center",
-    height: "100%",
+    // height: "100%",
     width: "100%",
+    backgroundColor: "#fff",
   },
-  peopleContainer: {
+  paddingContainer: {
     paddingHorizontal: 16, paddingVertical: 8,
     width: "100%",
   },
@@ -26,6 +27,7 @@ export const textStyles = StyleSheet.create({
     fontFamily: "monospace",
     fontSize: 32,
     textAlign: "center",
+    paddingTop: 16,
     // paddingVertical: 16,
     // marginVertical: 16,
     // marginHorizontal: 8,
@@ -162,7 +164,7 @@ export const cameraStyles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#fff",
@@ -177,8 +179,9 @@ export const cameraStyles = StyleSheet.create({
     marginBottom: 20,
   },
   cameraContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    alignSelf: "center",
     backgroundColor: "#000",
     borderRadius: 10,
     overflow: "hidden",
@@ -187,7 +190,8 @@ export const cameraStyles = StyleSheet.create({
   cameraView: {
     width: "100%",
     height: "100%",
-    flex: 1,
+    flex: 1,    
+
   },
   selectedImageContainer: {
     justifyContent: "center",

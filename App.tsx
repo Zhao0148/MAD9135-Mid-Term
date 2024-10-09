@@ -74,12 +74,12 @@ export default function App() {
           <Stack.Screen
             name="AddPerson"
             component={AddPersonScreen}
-            options={{ headerBackTitle: "People" }}
+            options={{ headerBackTitle: "People" ,headerTitle: "Add Person"}}
           />
           <Stack.Screen
             name="AddIdea"
             component={AddIdeaScreen}
-            options={{ headerBackTitle: "People" }}
+            options={{ headerBackTitle: "People" ,headerTitle: "Add Idea"}}
           />
         </Stack.Navigator>
       </NavigationContainer>
