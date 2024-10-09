@@ -21,6 +21,8 @@ import { useMyData } from "../Providers";
 import IdeaTextInput from "../components/IdeaTextInput";
 import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { StackParamList } from "../App";
 
 // import { CameraType } from "expo-camera";
 // type CameraType = "back" | "front";
@@ -28,8 +30,12 @@ type Props = {
   navigation: any;
   route: any;
 };
+type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
 const AddIdeaScreen = ({ navigation }: Props) => {
   const [data, saveData] = useMyData();
+  const route = useRoute<IdeasScreenRouteProp>();
+  const { id } = route.params;
+  console.log(`AddIdeaScreen ids: ${id}`);
   const screen = useWindowDimensions();
   useEffect(() => {
     calculateImageDimensions();
@@ -49,23 +55,22 @@ const AddIdeaScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-       <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
-        <Text style={textStyles.h2}>{"Add Idea"}</Text>
-      </View>
-      <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
-      <Text>{"Gift Idea"}</Text>
-      </View>
+        <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
+          <Text style={textStyles.h2}>{"Add Idea"}</Text>
+        </View>
+        <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
+          <Text>{"Gift Idea"}</Text>
+        </View>
 
-
-      {data?.cameraImageDimension && <CameraComponent />}
-      <View>
-        {/* <Pressable
+        {data?.cameraImageDimension && <CameraComponent personId={id} />}
+        <View>
+          {/* <Pressable
           style={buttonStyles.button}
           onPress={() => navigation.navigate("Ideas")}
         >
           <Text style={buttonStyles.buttonText}>{"Save Idea"}</Text>
         </Pressable> */}
-      </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

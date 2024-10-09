@@ -19,12 +19,12 @@
 - [X] Use KeyboardAvoidingView around each control in your form.
 
 ## IdeaScreen Features
-- [ ] The IdeaScreen will display a list of all gift ideas for the selected person.
-- [ ] There should be a heading above the list that indicates which person is associated with the list of gifts.
+- [/] The IdeaScreen will display a list of all gift ideas for the selected person.
+- [X] There should be a heading above the list that indicates which person is associated with the list of gifts.
 - [X] Route params are used to get the id of the person.
 - [X] There should be a method in the Context object for getting the list of ideas for a specific person based on the person id.
-- [ ] The list of ideas should be displayed in a FlatList.
-- [ ] If the list of ideas is empty then display a message about adding an idea.
+- [/] The list of ideas should be displayed in a FlatList.
+- [X] If the list of ideas is empty then display a message about adding an idea.
 - [X] There needs to be a FAB or a header link to navigate to the AddIdeaScreen. Remember to pass the person id to the AddIdeaScreen through Route params.
 - [ ] Each item in the FlatList should have a thumbnail version of the image, the text for the idea, and a delete button.
 - [ ] Pressing the delete button should call an async function in the Context object to remove the idea from the person and then update the full list.
@@ -36,7 +36,7 @@
 - [X] The images should be saved at an aspect ratio of 2:3. Save this value as a state variable or ref so you can use it later.
 - [X] When taking the image from the camera use a value between 50 and 70% of the screen width as the image width. Then calculate the height based on the screen width percentage times the aspect ratio. These calculated values should be saved in your context object (state and async storage).
 - [X] When taking the picture you will first need to get the Camera permissions using the hook or the method.
-- [ ] When taking the picture use the .getAvailablePictureSizesAsync() method to control the sizes used by the camera. See the notes in module 7.1 about this.
+- [X] When taking the picture use the .getAvailablePictureSizesAsync() method to control the sizes used by the camera. See the notes in module 7.1 about this.
 - [ ] When returning from this screen to the PersonScreen be sure to navigate and send the person id back through Route params.
 - [ ] Make sure that both the text and the image values are provided before you save the idea.
 - [ ] The validation and saving should be done in a function inside the Context object.

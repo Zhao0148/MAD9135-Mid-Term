@@ -25,10 +25,11 @@ import { useMyData } from "../Providers";
 import * as ImagePicker from "expo-image-picker";
 import { buttonStyles, cameraStyles, styles } from "../styles";
 import * as ImageManipulator from "expo-image-manipulator";
-import { ImagePreview, ManipulatedImage } from "../types";
-import { Audio, InterruptionModeAndroid } from 'expo-av';
-export default function CameraComponent() {
-  const [status, requestPermission] = useCameraPermissions();
+import { IdeaArrayObject, ImagePreview, ManipulatedImage } from "../types";
+import { randomUUID } from "expo-crypto";
+
+export default function CameraComponent({personId}: {personId: string}) {
+  const [permission, requestPermission] = useCameraPermissions();
   const [currentPictureResolution, setCurrentPictureResolution] =
     useState<ImageSize>({
       width: 1080,
@@ -42,12 +43,45 @@ export default function CameraComponent() {
   const [image, setImage] = useState<string | null>(null);
   const [giftDescription, setGiftDescription] = useState("");
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
-  const [hasPermission, setHasPermission] = useState<boolean>(false);
+console.log(`personIdzzz`, personId);
+  if (!permission) {
+    return <View />;
+  }
 
-
-  useEffect(() => {
-
-  }, []);
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+  function saveGift({id}: {id: string}) {
+    if (!imagePreview) {
+      alert("No image to save.");
+      return;
+    }
+  
+    const giftModel: IdeaArrayObject = {
+      giftId: randomUUID(),
+      giftDescription,
+      image: imagePreview,
+      width: currentPictureResolution.width,
+      height: currentPictureResolution.height,
+    };
+    const getPersonNameById = data.person.find((person)  => person.id === id);
+    console.log(`zzzz`, getPersonNameById);
+    const insertIdeas = getPersonNameById?.ideas || [];
+    const updatedIdeas = [...insertIdeas, giftModel];
+    const updatedPerson = { ...getPersonNameById, ideas: updatedIdeas };
+    const updatedPeople = data.person.map((person) =>
+      person.id === id ? updatedPerson : person
+    );
+    saveData("person", updatedPeople);
+    setImagePreview(null);
+    
+  }
+  
 
   
   const takePicture = async () => {
@@ -112,7 +146,7 @@ export default function CameraComponent() {
         }).catch(err => console.warn(err.message));;
       }
     } catch (error) {
-      console.log("error", error);
+      console.log("error in takePicture", error);
     } finally {
       setIsTakingPicture(false);
 
@@ -121,20 +155,8 @@ export default function CameraComponent() {
 
   const cameraWidth = data.cameraImageDimension?.imageDimensions.width;
   const cameraHeight = data.cameraImageDimension?.imageDimensions.height;
-  if (!status) {
-    return <View />;
-  }
 
-  if (status.status !== PermissionStatus.GRANTED) {
-    return (
-      <View style={cameraStyles.container}>
-        <Text style={cameraStyles.message}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="Grant Permission" />
-      </View>
-    );
-  }
+
   return (
     <View style={styles.paddingContainer}>
       <TextInput
@@ -188,7 +210,7 @@ export default function CameraComponent() {
           </CameraView>
         )}
       </View>
-      {image && (
+      {/* {image && (
         <View
           style={[
             cameraStyles.selectedImageContainer,
@@ -203,7 +225,7 @@ export default function CameraComponent() {
             ]}
           />
         </View>
-      )}
+      )} */}
 
       {imagePreview ? (
         <View
@@ -222,7 +244,7 @@ export default function CameraComponent() {
           </Pressable>
           <TouchableOpacity
             style={cameraStyles.saveButton}
-            // onPress={() => saveGift("")}
+            onPress={() => saveGift({id:personId})}
           >
             <Text style={cameraStyles.saveButtonText}>Save Gift</Text>
           </TouchableOpacity>
@@ -280,17 +302,3 @@ function correctOrientation(orientation: number) {
 //   }
 // };
 
-// function saveGift(id: string) {
-//   if (!imagePreview) {
-//     alert("No image to save.");
-//     return;
-//   }
-
-//   const giftModel: IdeaArrayObject = {
-//     giftId: randomUUID(),
-//     giftDescription,
-//     image: imagePreview,
-//     width: currentPictureResolution.width,
-//     height: currentPictureResolution.height,
-//   };
-// }

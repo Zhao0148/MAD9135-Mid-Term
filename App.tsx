@@ -1,4 +1,8 @@
-import { NavigationContainer, useNavigation , NavigationProp} from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigation,
+  NavigationProp,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddIdeaScreen from "./pages/AddIdeaScreen";
 import AddPersonScreen from "./pages/AddPersonScreen";
@@ -14,7 +18,7 @@ export type StackParamList = {
   Ideas: { id: string };
   AddPerson: undefined;
   AddIdea: undefined;
-  Root: undefined;  
+  Root: undefined;
 };
 
 export type StackNavigationProp = NavigationProp<StackParamList>;
@@ -43,13 +47,15 @@ function Root() {
       <Stack.Screen
         name="Ideas"
         component={IdeaScreen}
-        options={{
+        options={({ navigation, route }) => ({
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("AddIdea")}>
+            <Pressable
+              onPress={() => navigation.navigate("AddIdea", route.params)}
+            >
               <Text style={headerStyles.headerRightButton}>Add Idea</Text>
             </Pressable>
           ),
-        }}
+        })}
       />
     </Drawer.Navigator>
   );
@@ -74,12 +80,12 @@ export default function App() {
           <Stack.Screen
             name="AddPerson"
             component={AddPersonScreen}
-            options={{ headerBackTitle: "People" ,headerTitle: "Add Person"}}
+            options={{ headerBackTitle: "People", headerTitle: "Add Person" }}
           />
           <Stack.Screen
             name="AddIdea"
             component={AddIdeaScreen}
-            options={{ headerBackTitle: "People" ,headerTitle: "Add Idea"}}
+            options={{ headerBackTitle: "People", headerTitle: "Add Idea" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

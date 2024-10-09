@@ -29,6 +29,10 @@ type Props = {
 const IdeaScreen = ({ navigation }: Props) => {
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
+  // navigation.setParams({
+  //   id,
+  // });
+  //put id in na
   const [data, setData] = useMyData();
   const person = data?.person ?? [];
   const getPersonNameById: Person = person.find((person: Person) => person.id === id);
@@ -41,9 +45,9 @@ const IdeaScreen = ({ navigation }: Props) => {
   //   // console.log("data.personInIdea", data.person);
   // }
   console.log("data?.people", data?.person);
-  // const renderIdeas = ({ item }: { item: Person }) => (
-  //   <ListItemIdeas people={item} />
-  // );
+  const renderIdeas = ({ item }: { item: Person }) => (
+    <ListItemIdeas people={item} />
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,12 +65,12 @@ const IdeaScreen = ({ navigation }: Props) => {
       </View>
       <View>
         <View>
-          {/* <FlatList 
+          <FlatList 
             data={data.person}
             renderItem={renderIdeas}
             keyExtractor={(item) => item.id}
             style={{ maxHeight: 525 }}
-          /> */}
+          />
 
           {/* <Text style={buttonStyles.buttonText}>{""}</Text> */}
         </View>
