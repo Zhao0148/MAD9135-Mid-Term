@@ -38,7 +38,7 @@ export type IdeaArrayObject = {
 export type Person = {
   id: string;
   name: string;
-  dob: Date;
+  dob: Date | any;
   ideas: IdeaArrayObject[];
 };
 

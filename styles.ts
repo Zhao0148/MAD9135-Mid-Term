@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -28,9 +28,6 @@ export const textStyles = StyleSheet.create({
     fontSize: 32,
     textAlign: "center",
     paddingTop: 16,
-    // paddingVertical: 16,
-    // marginVertical: 16,
-    // marginHorizontal: 8,
   },
   h3: {
     paddingTop: 4,
@@ -299,3 +296,37 @@ export const modalStyles = StyleSheet.create({
 })
 
 
+export const ideaListStyles = StyleSheet.create({
+  card: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    padding: 16,
+
+  },
+  contentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  image: {
+    borderRadius: 8,
+    marginRight: 16,
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 17,
+    fontWeight: "600",
+    color: "#000000",
+    marginBottom: 4,
+    fontFamily: Platform.OS === "ios" ? "System" : "Roboto",
+  },
+  description: {
+    fontSize: 15,
+    color: "#666666",
+    fontFamily: Platform.OS === "ios" ? "System" : "Roboto",
+  },
+});

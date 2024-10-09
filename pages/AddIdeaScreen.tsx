@@ -23,15 +23,17 @@ import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
-
+import   {useNavigation} from "@react-navigation/native";
 // import { CameraType } from "expo-camera";
 // type CameraType = "back" | "front";
 type Props = {
   navigation: any;
   route: any;
 };
+
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
-const AddIdeaScreen = ({ navigation }: Props) => {
+const AddIdeaScreen = ({  }: Props) => {
+const navigation = useNavigation(); 
   const [data, saveData] = useMyData();
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
@@ -62,7 +64,7 @@ const AddIdeaScreen = ({ navigation }: Props) => {
           <Text>{"Gift Idea"}</Text>
         </View>
 
-        {data?.cameraImageDimension && <CameraComponent personId={id} />}
+        {data?.cameraImageDimension && <CameraComponent personId={id}  navigation={navigation}/>}
         <View>
           {/* <Pressable
           style={buttonStyles.button}

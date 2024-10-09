@@ -25,10 +25,10 @@ import { useMyData } from "../Providers";
 import * as ImagePicker from "expo-image-picker";
 import { buttonStyles, cameraStyles, styles } from "../styles";
 import * as ImageManipulator from "expo-image-manipulator";
-import { IdeaArrayObject, ImagePreview, ManipulatedImage } from "../types";
+import { IdeaArrayObject, ImagePreview, ManipulatedImage, Person } from "../types";
 import { randomUUID } from "expo-crypto";
 
-export default function CameraComponent({personId}: {personId: string}) {
+export default function CameraComponent({personId,navigation}: {personId: string, navigation: any}) {
   const [permission, requestPermission] = useCameraPermissions();
   const [currentPictureResolution, setCurrentPictureResolution] =
     useState<ImageSize>({
@@ -43,6 +43,8 @@ export default function CameraComponent({personId}: {personId: string}) {
   const [image, setImage] = useState<string | null>(null);
   const [giftDescription, setGiftDescription] = useState("");
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
+
+
 console.log(`personIdzzz`, personId);
   if (!permission) {
     return <View />;
@@ -61,7 +63,11 @@ console.log(`personIdzzz`, personId);
       alert("No image to save.");
       return;
     }
-  
+    if(!giftDescription) {
+      alert("No description to save.");
+      return;
+    }
+
     const giftModel: IdeaArrayObject = {
       giftId: randomUUID(),
       giftDescription,
@@ -69,17 +75,20 @@ console.log(`personIdzzz`, personId);
       width: currentPictureResolution.width,
       height: currentPictureResolution.height,
     };
-    const getPersonNameById = data.person.find((person)  => person.id === id);
+    const getPersonNameById = data.person.find((person: Person)  => person.id === id);
     console.log(`zzzz`, getPersonNameById);
     const insertIdeas = getPersonNameById?.ideas || [];
     const updatedIdeas = [...insertIdeas, giftModel];
     const updatedPerson = { ...getPersonNameById, ideas: updatedIdeas };
-    const updatedPeople = data.person.map((person) =>
+    const updatedPeople = data.person.map((person: Person) =>
       person.id === id ? updatedPerson : person
     );
     saveData("person", updatedPeople);
     setImagePreview(null);
-    
+    setGiftDescription("");
+    // navigation.navigate("Ideas", { id });
+    // go backwards to the previous screen
+    navigation.goBack();
   }
   
 

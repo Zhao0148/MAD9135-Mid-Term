@@ -18,7 +18,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
 import { styles } from "../styles";
 import ListItemIdeas from "../components/ListItem";
-import { Person } from "../types";
+import { IdeaArrayObject, Person } from "../types";
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
 
 type Props = {
@@ -36,7 +36,8 @@ const IdeaScreen = ({ navigation }: Props) => {
   const [data, setData] = useMyData();
   const person = data?.person ?? [];
   const getPersonNameById: Person = person.find((person: Person) => person.id === id);
-  console.log(`getPersonNameById`, getPersonNameById.name);
+  // const personIdeas = getPersonNameById?.ideas ?? [];
+  console.log(`getPersonNameById`, JSON.stringify(getPersonNameById.ideas, null, 2));
   // console.log(`IdeaScreen id: ${id}`);
   // let person = data?.person ?? [];
   // if (data) {
@@ -45,8 +46,9 @@ const IdeaScreen = ({ navigation }: Props) => {
   //   // console.log("data.personInIdea", data.person);
   // }
   console.log("data?.people", data?.person);
-  const renderIdeas = ({ item }: { item: Person }) => (
-    <ListItemIdeas people={item} />
+  const renderIdeas = ({ item }: { item: IdeaArrayObject }) => (
+    console.log(`item2`, item),
+    <ListItemIdeas ideas={item} />
   );
 
   return (
@@ -58,7 +60,7 @@ const IdeaScreen = ({ navigation }: Props) => {
       </View>
       <View style={styles.paddingContainer}>
         {getPersonNameById?.ideas?.length !== 0 ? (
-          <Text>{`${getPersonNameById.ideas}`}</Text>
+          <Text>{`${getPersonNameById.ideas.length}`}</Text>
         ) : (
           <Text>{`There are currently no ideas for ${getPersonNameById?.name}`}</Text>
         )}
@@ -66,9 +68,9 @@ const IdeaScreen = ({ navigation }: Props) => {
       <View>
         <View>
           <FlatList 
-            data={data.person}
+            data={getPersonNameById.ideas}
             renderItem={renderIdeas}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.giftId}
             style={{ maxHeight: 525 }}
           />
 
