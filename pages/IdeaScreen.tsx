@@ -10,6 +10,7 @@ import {
   View,
   Pressable,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { buttonStyles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
@@ -19,6 +20,10 @@ import { StackParamList } from "../App";
 import { styles } from "../styles";
 import ListItemIdeas from "../components/ListItem";
 import { IdeaArrayObject, Person } from "../types";
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
 
 type Props = {
@@ -27,17 +32,22 @@ type Props = {
 };
 
 const IdeaScreen = ({ navigation }: Props) => {
+  const [data, saveData] = useMyData();
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
   // navigation.setParams({
   //   id,
   // });
-  //put id in na
-  const [data, setData] = useMyData();
+
   const person = data?.person ?? [];
-  const getPersonNameById: Person = person.find((person: Person) => person.id === id);
+  const getPersonNameById: Person = person.find(
+    (person: Person) => person.id === id
+  );
   // const personIdeas = getPersonNameById?.ideas ?? [];
-  console.log(`getPersonNameById`, JSON.stringify(getPersonNameById.ideas, null, 2));
+  console.log(
+    `getPersonNameById`,
+    JSON.stringify(getPersonNameById.ideas, null, 2)
+  );
   // console.log(`IdeaScreen id: ${id}`);
   // let person = data?.person ?? [];
   // if (data) {
@@ -47,7 +57,6 @@ const IdeaScreen = ({ navigation }: Props) => {
   // }
   console.log("data?.people", data?.person);
   const renderIdeas = ({ item }: { item: IdeaArrayObject }) => (
-    console.log(`item2`, item),
     <ListItemIdeas ideas={item} />
   );
 
@@ -67,7 +76,7 @@ const IdeaScreen = ({ navigation }: Props) => {
       </View>
       <View>
         <View>
-          <FlatList 
+          <FlatList
             data={getPersonNameById.ideas}
             renderItem={renderIdeas}
             keyExtractor={(item) => item.giftId}

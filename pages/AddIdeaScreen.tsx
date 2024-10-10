@@ -23,7 +23,7 @@ import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
-import   {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 // import { CameraType } from "expo-camera";
 // type CameraType = "back" | "front";
 type Props = {
@@ -32,8 +32,8 @@ type Props = {
 };
 
 type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
-const AddIdeaScreen = ({  }: Props) => {
-const navigation = useNavigation(); 
+const AddIdeaScreen = ({}: Props) => {
+  const navigation = useNavigation();
   const [data, saveData] = useMyData();
   const route = useRoute<IdeasScreenRouteProp>();
   const { id } = route.params;
@@ -50,7 +50,6 @@ const navigation = useNavigation();
     const aspectRatio = 9 / 16;
     const imageHeight = Math.floor(imageWidth / aspectRatio);
     const newImageDimensions = { width: imageWidth, height: imageHeight };
-    console.log(`newImageDimensions`, newImageDimensions);
     saveData("cameraImageDimension", { imageDimensions: newImageDimensions });
   };
 
@@ -63,16 +62,10 @@ const navigation = useNavigation();
         <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
           <Text>{"Gift Idea"}</Text>
         </View>
-
-        {data?.cameraImageDimension && <CameraComponent personId={id}  navigation={navigation}/>}
-        <View>
-          {/* <Pressable
-          style={buttonStyles.button}
-          onPress={() => navigation.navigate("Ideas")}
-        >
-          <Text style={buttonStyles.buttonText}>{"Save Idea"}</Text>
-        </Pressable> */}
-        </View>
+        {data?.cameraImageDimension && (
+          <CameraComponent personId={id} navigation={navigation} />
+        )}
+        <View></View>
       </ScrollView>
     </SafeAreaView>
   );

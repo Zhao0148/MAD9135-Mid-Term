@@ -29,7 +29,7 @@
 - [ ] Each item in the FlatList should have a thumbnail version of the image, the text for the idea, and a delete button.
 - [ ] Pressing the delete button should call an async function in the Context object to remove the idea from the person and then update the full list.
 - [ ] Successfully deleting an idea should trigger a reload of the contents because the list of ideas is updated.
-- [ ] The thumbnail images should be the same aspect ratio as the images that were saved, just smaller.
+- [X] The thumbnail images should be the same aspect ratio as the images that were saved, just smaller.
 
 ## AddIdeaScreen Features
 - [X] The AddIdeaScreen will use a TextInput and a Camera component to save a name for the gift idea plus take a picture of the idea.
@@ -37,8 +37,8 @@
 - [X] When taking the image from the camera use a value between 50 and 70% of the screen width as the image width. Then calculate the height based on the screen width percentage times the aspect ratio. These calculated values should be saved in your context object (state and async storage).
 - [X] When taking the picture you will first need to get the Camera permissions using the hook or the method.
 - [X] When taking the picture use the .getAvailablePictureSizesAsync() method to control the sizes used by the camera. See the notes in module 7.1 about this.
-- [ ] When returning from this screen to the PersonScreen be sure to navigate and send the person id back through Route params.
-- [ ] Make sure that both the text and the image values are provided before you save the idea.
+- [X] When returning from this screen to the PersonScreen be sure to navigate and send the person id back through Route params.
+- [X] Make sure that both the text and the image values are provided before you save the idea.
 - [ ] The validation and saving should be done in a function inside the Context object.
 - [ ] There should be a Save and a Cancel button on the screen.
 - [ ] The Cancel button will send the user back to the PersonScreen without saving anything. However, you still need to pass the person id back through the Route params.

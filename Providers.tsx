@@ -6,10 +6,11 @@ import React, {
   ReactNode,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Person } from "./types";
 
 type DataType = { [key: string]: any };
 
-type ContextType = [DataType, any, any, any];
+type ContextType = [DataType, any, any, any, any];
 
 const APP_NAME = "RememberMe";
 
@@ -22,7 +23,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
     try {
       const storageKey = `${APP_NAME}${key}`;
       await AsyncStorage.setItem(storageKey, JSON.stringify(newData));
-      setData((prevData) => ({ ...prevData, [key]: newData ?? []}));
+      setData((prevData) => ({ ...prevData, [key]: newData ?? [] }));
       console.log(`Storage key: ${key}:`, newData);
     } catch (error) {
       console.error(`Error saving data for ${key}:`, error);
@@ -43,7 +44,13 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       console.error(`Error removing data for ${key}:`, error);
     }
   };
-
+  const removePerson = (id: string) => {
+    console.log(`iProvide`, id);
+    const updatedPeople = data.person.filter(
+      (person: Person) => person.id !== id
+    );
+    saveData("person", updatedPeople);
+  };
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -78,7 +85,9 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <MyDataContext.Provider value={[data, saveData, removeData, clearAllData]}>
+    <MyDataContext.Provider
+      value={[data, saveData, removePerson, removeData, clearAllData]}
+    >
       {children}
     </MyDataContext.Provider>
   );

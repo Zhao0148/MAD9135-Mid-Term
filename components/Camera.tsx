@@ -1,34 +1,36 @@
-import {
-  CameraType,
-  useCameraPermissions,
-  CameraView,
-  Camera,
-  PermissionResponse,
-  PermissionStatus,
-} from "expo-camera";
+import { CameraType, useCameraPermissions, CameraView } from "expo-camera";
 import type { CameraPictureOptions, ImageSize } from "expo-camera";
 import { Image } from "expo-image";
 import { CameraIcon } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Button,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
   TextInput,
   Pressable,
-  ScrollView,
 } from "react-native";
 import { useMyData } from "../Providers";
 import * as ImagePicker from "expo-image-picker";
-import { buttonStyles, cameraStyles, styles } from "../styles";
+import { cameraStyles, styles } from "../styles";
 import * as ImageManipulator from "expo-image-manipulator";
-import { IdeaArrayObject, ImagePreview, ManipulatedImage, Person } from "../types";
+import {
+  IdeaArrayObject,
+  ImagePreview,
+  ManipulatedImage,
+  Person,
+} from "../types";
 import { randomUUID } from "expo-crypto";
 
-export default function CameraComponent({personId,navigation}: {personId: string, navigation: any}) {
+export default function CameraComponent({
+  personId,
+  navigation,
+}: {
+  personId: string;
+  navigation: any;
+}) {
   const [permission, requestPermission] = useCameraPermissions();
   const [currentPictureResolution, setCurrentPictureResolution] =
     useState<ImageSize>({
@@ -44,8 +46,6 @@ export default function CameraComponent({personId,navigation}: {personId: string
   const [giftDescription, setGiftDescription] = useState("");
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
 
-
-console.log(`personIdzzz`, personId);
   if (!permission) {
     return <View />;
   }
@@ -58,12 +58,12 @@ console.log(`personIdzzz`, personId);
       </View>
     );
   }
-  function saveGift({id}: {id: string}) {
+  function saveGift({ id }: { id: string }) {
     if (!imagePreview) {
       alert("No image to save.");
       return;
     }
-    if(!giftDescription) {
+    if (!giftDescription) {
       alert("No description to save.");
       return;
     }
@@ -75,8 +75,9 @@ console.log(`personIdzzz`, personId);
       width: currentPictureResolution.width,
       height: currentPictureResolution.height,
     };
-    const getPersonNameById = data.person.find((person: Person)  => person.id === id);
-    console.log(`zzzz`, getPersonNameById);
+    const getPersonNameById = data.person.find(
+      (person: Person) => person.id === id
+    );
     const insertIdeas = getPersonNameById?.ideas || [];
     const updatedIdeas = [...insertIdeas, giftModel];
     const updatedPerson = { ...getPersonNameById, ideas: updatedIdeas };
@@ -86,21 +87,17 @@ console.log(`personIdzzz`, personId);
     saveData("person", updatedPeople);
     setImagePreview(null);
     setGiftDescription("");
-    // navigation.navigate("Ideas", { id });
-    // go backwards to the previous screen
-    navigation.goBack();
+    navigation.navigate("People", { id });
+    // navigation.goBack();
   }
-  
 
-  
   const takePicture = async () => {
     try {
-      
       if (!cameraReady) {
         console.log("Camera is not ready yet.");
         return;
       }
-      
+
       const options: CameraPictureOptions = {
         quality: 1,
         exif: true,
@@ -124,47 +121,48 @@ console.log(`personIdzzz`, personId);
           imageDimensions: preferredResolution,
         });
         setIsTakingPicture(true);
-        
-        await camera.current.takePictureAsync(options).then(async (photo) => {
-          if (photo) {
-            console.log("photo2", photo);
-            let rotatedPhotoUri = photo.uri;
-            if (photo.exif && photo.exif.Orientation) {
-              const rotation = correctOrientation(photo.exif.Orientation);
-              if (rotation !== 0) {
-                const manipulatedImage: ManipulatedImage =
-                  await ImageManipulator.manipulateAsync(
-                    photo.uri,
-                    [
-                      { rotate: rotation },
-                      {
-                        resize: {
-                          // height: currentPictureResolution.height,
-                          width: currentPictureResolution.width,
+
+        await camera.current
+          .takePictureAsync(options)
+          .then(async (photo) => {
+            if (photo) {
+              console.log("photo2", photo);
+              let rotatedPhotoUri = photo.uri;
+              if (photo.exif && photo.exif.Orientation) {
+                const rotation = correctOrientation(photo.exif.Orientation);
+                if (rotation !== 0) {
+                  const manipulatedImage: ManipulatedImage =
+                    await ImageManipulator.manipulateAsync(
+                      photo.uri,
+                      [
+                        { rotate: rotation },
+                        {
+                          resize: {
+                            // height: currentPictureResolution.height,
+                            width: currentPictureResolution.width,
+                          },
                         },
-                      },
-                    ],
-                    { compress: 1, format: ImageManipulator.SaveFormat.PNG }
-                  );
-                rotatedPhotoUri = manipulatedImage.uri;
-                console.log("manipulatedImage", manipulatedImage);
+                      ],
+                      { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+                    );
+                  rotatedPhotoUri = manipulatedImage.uri;
+                  console.log("manipulatedImage", manipulatedImage);
+                }
               }
+              setImagePreview({ uri: rotatedPhotoUri });
             }
-            setImagePreview({ uri: rotatedPhotoUri });
-          }
-        }).catch(err => console.warn(err.message));;
+          })
+          .catch((err) => console.warn(err.message));
       }
     } catch (error) {
       console.log("error in takePicture", error);
     } finally {
       setIsTakingPicture(false);
-
     }
   };
 
   const cameraWidth = data.cameraImageDimension?.imageDimensions.width;
   const cameraHeight = data.cameraImageDimension?.imageDimensions.height;
-
 
   return (
     <View style={styles.paddingContainer}>
@@ -193,14 +191,13 @@ console.log(`personIdzzz`, personId);
           />
         ) : (
           <CameraView
-          animateShutter={false}
+            animateShutter={false}
             ref={camera}
             style={[
               cameraStyles.cameraView,
               { width: cameraWidth, height: cameraHeight },
             ]}
             facing={facing}
-          
             pictureSize={`${cameraWidth}x${cameraHeight}`}
             onCameraReady={() => {
               setCameraReady(true);
@@ -253,7 +250,7 @@ console.log(`personIdzzz`, personId);
           </Pressable>
           <TouchableOpacity
             style={cameraStyles.saveButton}
-            onPress={() => saveGift({id:personId})}
+            onPress={() => saveGift({ id: personId })}
           >
             <Text style={cameraStyles.saveButtonText}>Save Gift</Text>
           </TouchableOpacity>
@@ -310,4 +307,3 @@ function correctOrientation(orientation: number) {
 //     setImage(result.assets[0].uri);
 //   }
 // };
-
