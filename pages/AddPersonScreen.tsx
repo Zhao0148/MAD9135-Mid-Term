@@ -22,11 +22,11 @@ import { useMyData } from "../Providers";
 import DatePicker from "react-native-modern-datepicker";
 import { randomUUID } from "expo-crypto";
 import { modalStyles } from "../styles";
+import ModalComponent from "../components/Modal";
 type Props = {
   navigation: any;
   route: any;
 };
-
 const AddPersonScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -60,27 +60,8 @@ const AddPersonScreen = ({ navigation }: Props) => {
   }, [onChangeText, text]);
   return (
     <SafeAreaView style={styles.container}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={modalStyles.modalPosition}>
-          <View style={modalStyles.modalContainer}>
-            <Text style={modalStyles.modalTitle}>{"Missing field"}</Text>
-            <Text style={modalStyles.modalText}>
-              {"Both the name and date of birth fields are required."}
-            </Text>
-            <Pressable
-              style={[modalStyles.modalButton]}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={modalStyles.modalAcknowledgement}>OK</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+
+      <ModalComponent isModalVisible={isModalVisible} setModalVisible={setModalVisible} titleText="Missing Field" bodyText="Both the name and date of birth fields are required."/>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}

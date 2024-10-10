@@ -44,8 +44,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       console.error(`Error removing data for ${key}:`, error);
     }
   };
-  const removePerson = (id: string) => {
-    console.log(`iProvide`, id);
+  const removePerson = async (id: string) => {
     const updatedPeople = data.person.filter(
       (person: Person) => person.id !== id
     );
@@ -99,3 +98,4 @@ export function useMyData(): NonNullable<ContextType> {
     throw new Error("useMyData must be used within a MyDataProvider");
   return context;
 }
+

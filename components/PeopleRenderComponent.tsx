@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 2,
     borderBottomColor: "#E0E0E0",
     backgroundColor: "#E0E0E0",
-    marginVertical: 8,
+    // marginVertical: 8,
   },
   iconContainer: {
     maxWidth: 300,

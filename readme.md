@@ -19,16 +19,16 @@
 - [X] Use KeyboardAvoidingView around each control in your form.
 
 ## IdeaScreen Features
-- [/] The IdeaScreen will display a list of all gift ideas for the selected person.
+- [X] The IdeaScreen will display a list of all gift ideas for the selected person.
 - [X] There should be a heading above the list that indicates which person is associated with the list of gifts.
 - [X] Route params are used to get the id of the person.
 - [X] There should be a method in the Context object for getting the list of ideas for a specific person based on the person id.
-- [/] The list of ideas should be displayed in a FlatList.
+- [X] The list of ideas should be displayed in a FlatList.
 - [X] If the list of ideas is empty then display a message about adding an idea.
 - [X] There needs to be a FAB or a header link to navigate to the AddIdeaScreen. Remember to pass the person id to the AddIdeaScreen through Route params.
-- [ ] Each item in the FlatList should have a thumbnail version of the image, the text for the idea, and a delete button.
-- [ ] Pressing the delete button should call an async function in the Context object to remove the idea from the person and then update the full list.
-- [ ] Successfully deleting an idea should trigger a reload of the contents because the list of ideas is updated.
+- [X] Each item in the FlatList should have a thumbnail version of the image, the text for the idea, and a delete button.
+- [X] Pressing the delete button should call an async function in the Context object to remove the idea from the person and then update the full list.
+- [X] Successfully deleting an idea should trigger a reload of the contents because the list of ideas is updated.
 - [X] The thumbnail images should be the same aspect ratio as the images that were saved, just smaller.
 
 ## AddIdeaScreen Features
@@ -53,7 +53,7 @@
 - [ ] Your app should have a custom SplashScreen and Launcher icon. You can use the Figma template from the link in module 5.2 to create these.
 
 ## Optional Features (Choose TWO)
-- [ ] Add a Swipeable to the FlatList on the PeopleScreen page which will expose a delete button. When pressed, the button will call an async function in the Context object to delete a person. When successful the list should automatically update itself.
+- [X] Add a Swipeable to the FlatList on the PeopleScreen page which will expose a delete button. When pressed, the button will call an async function in the Context object to delete a person. When successful the list should automatically update itself.
 - [ ] Tap image thumbnail to view in fullsized modal from the FlatList on the IdeaScreen page AND show the preview image on the AddIdeaScreen while taking the picture.
 - [ ] Implement a UI Kit on all screens. Use React Native Elements or React Native Paper or GlueStack.
 - [ ] Change the navigation between the list and add screens based on the OS. If Android, use a FAB to go to the screen for adding a person or adding an idea. If on iOS, use the header link.
