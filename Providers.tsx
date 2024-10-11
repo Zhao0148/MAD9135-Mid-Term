@@ -6,12 +6,16 @@ import React, {
   ReactNode,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Person } from "./types";
+import { IdeaArrayObject, Person } from "./types";
 
 type DataType = { [key: string]: any };
 
 type ContextType = [DataType, any, any, any, any];
-
+type DataContextType = any;
+interface UpdateGiftParams {
+  personId: string;
+  giftConfig: IdeaArrayObject;
+}
 const APP_NAME = "RememberMe";
 
 const MyDataContext = createContext<ContextType | undefined>(undefined);
@@ -50,6 +54,61 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
     );
     saveData("person", updatedPeople);
   };
+
+  const updateGift = async ({
+    personId,
+    giftConfig,
+  }: UpdateGiftParams): Promise<void> => {
+    const checkObject= Object.values(giftConfig).some((value) => value === undefined || value === null || value === "");
+    if (!personId || checkObject) {
+      throw new Error("Please fill out all fields");
+    }
+    try {
+      const person = data.person.find(
+        (person: Person) => person.id === personId
+      );
+
+      if (!person) {
+        throw new Error(`Person with ID ${personId} not found`);
+      }
+
+      const updatedPerson = {
+        ...person,
+        ideas: [...(person.ideas || []), giftConfig],
+      };
+
+      const updatedPeople = data.person.map((person: Person) =>
+        person.id === personId ? updatedPerson : person
+      );
+
+      await saveData("person", updatedPeople);
+    } catch (error) {
+      console.error("Error updating gift:", error);
+      throw error;
+    }
+  };
+  const removeGift = async (personId: string, giftId: string) => {
+    try {
+      const person = data.person.find(
+        (person: Person) => person.id === personId
+      );
+      if (!person) {
+        throw new Error(`Person with ID ${personId} not found`);
+      }
+      const updatedIdeas = person.ideas.filter(
+        (idea: IdeaArrayObject) => idea.giftId !== giftId
+      );
+      const updatedPerson = { ...person, ideas: updatedIdeas };
+      const updatedPeople = data.person.map((person: Person) =>
+        person.id === personId ? updatedPerson : person
+      );
+      await saveData("person", updatedPeople);
+    } catch (error) {
+      console.error("Error removing gift:", error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -82,20 +141,26 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       console.error("Error clearing data:", error);
     }
   };
+  const contextMethods: DataContextType = {
+    data,
+    saveData,
+    removePerson,
+    removeData,
+    clearAllData,
+    updateGift,
+    removeGift
+  };
 
   return (
-    <MyDataContext.Provider
-      value={[data, saveData, removePerson, removeData, clearAllData]}
-    >
+    <MyDataContext.Provider value={contextMethods}>
       {children}
     </MyDataContext.Provider>
   );
 }
 
-export function useMyData(): NonNullable<ContextType> {
+export function useMyData(): NonNullable<DataContextType> {
   const context = useContext(MyDataContext);
   if (!context)
     throw new Error("useMyData must be used within a MyDataProvider");
   return context;
 }
-

@@ -1,47 +1,43 @@
 // AddPersonScreen - add a new person object with a name, date of birth, and empty ideas array.
 
-import React, { useCallback, useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
-  Pressable,
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
   Platform,
   TouchableWithoutFeedback,
-  Modal,
+  TouchableOpacity,
 } from "react-native";
 import { buttonStyles, styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import DatePicker from "react-native-modern-datepicker";
 import { randomUUID } from "expo-crypto";
-import { modalStyles } from "../styles";
 import ModalComponent from "../components/Modal";
-type Props = {
-  navigation: any;
-  route: any;
-};
-const AddPersonScreen = ({ navigation }: Props) => {
-  const [text, onChangeText] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [data, saveData, clearAllData] = useMyData();
+import { useNavigation } from "@react-navigation/native";
+import { RootStackNavigationProp } from "../App";
+
+const AddPersonScreen = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+  const [name, onChangeName] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const { data, saveData, clearAllData } = useMyData();
   const [isModalVisible, setModalVisible] = useState(false);
   const handleSavePerson = async () => {
     // await clearAllData("person");
     // await clearAllData("cameraSettings");
-    if (!text || !selectedDate) {
+    if (!name || !selectedDate) {
       setModalVisible(true);
       return;
     }
     const newPerson = {
       id: randomUUID(),
-      name: text,
+      name: name,
       dob: selectedDate.replace(/\//g, "-"),
       ideas: [],
     };
@@ -56,54 +52,75 @@ const AddPersonScreen = ({ navigation }: Props) => {
   }, [setSelectedDate, selectedDate]);
 
   useEffect(() => {
-    console.log(`text: ${text}`);
-  }, [onChangeText, text]);
+    console.log(`text: ${name}`);
+  }, [onChangeName, name]);
   return (
     <SafeAreaView style={styles.container}>
-
-      <ModalComponent isModalVisible={isModalVisible} setModalVisible={setModalVisible} titleText="Missing Field" bodyText="Both the name and date of birth fields are required."/>
+      <ModalComponent
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
+        titleText="Missing Field"
+        bodyText="Both the name and date of birth fields are required."
+        onConfirm={() => setModalVisible(false)}
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView>
+          <ScrollView contentContainerStyle={styles.paddingContainer}>
             <View
-              style={[styles.paddingContainer, { alignItems: "flex-start" }]}
+              style={{ alignItems: "flex-start" }}
             >
-              <Text style={textStyles.h2}>Person</Text>
-              <Text style={textStyles.p}>{"Person Name"}</Text>
+              <Text style={[textStyles.h2,{marginBottom:20}]}>Add New Person</Text>
             </View>
-            <View style={styles.paddingContainer}>
+            <View style={stylesInput.inputContainer}>
+              <Text style={[textStyles.p,{marginBottom:20}]}>{"Person Name"}</Text>
               <TextInput
                 style={stylesInput.input}
-                onChangeText={onChangeText}
-                value={text}
+                onChangeText={onChangeName}
+                value={name}
                 autoFocus={true}
+                placeholder="Enter name"
+                placeholderTextColor="#999"
               />
             </View>
-            <View style={styles.marginHorizontal}>
+            <View style={stylesInput.inputContainer}>
+              <Text style={textStyles.p}>Date of Birth</Text>
               <DatePicker
                 onSelectedChange={(date) => setSelectedDate(date)}
                 mode="calendar"
                 onDateChange={(date) => setSelectedDate(date)}
+                // style={{ width: "100%" }}
               />
+            </View>
 
-              <View style={stylesInput.sideBySide}>
-                <Pressable
-                  style={buttonStyles.button}
-                  onPress={() => navigation.navigate("People")}
+
+            <View style={buttonStyles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={[buttonStyles.button, buttonStyles.cancelButton]}
+              >
+                <Text
+                  style={[
+                    buttonStyles.buttonText,
+                    buttonStyles.cancelButtonText,
+                  ]}
                 >
-                  <Text style={buttonStyles.buttonText}>{"Cancel"}</Text>
-                </Pressable>
-                <Pressable
-                  style={buttonStyles.button}
-                  onPress={handleSavePerson}
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleSavePerson}
+                style={[buttonStyles.button, buttonStyles.saveButton]}
+              >
+                <Text
+                  style={[buttonStyles.buttonText, buttonStyles.saveButtonText]}
                 >
-                  <Text style={buttonStyles.buttonText}>{"Save Person"}</Text>
-                </Pressable>
-              </View>
+                  Save Person
+                </Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
@@ -115,15 +132,16 @@ const AddPersonScreen = ({ navigation }: Props) => {
 export default AddPersonScreen;
 const stylesInput = StyleSheet.create({
   input: {
-    height: 40,
-    width: "100%",
-    borderBottomWidth: 1,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    padding: 15,
+    fontSize: 17,
+    color: "#000",
   },
-  sideBySide: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  container: {
-    flex: 1,
+
+  inputContainer: {
+    marginBottom: 20,
   },
 });
+
+

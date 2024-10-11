@@ -14,17 +14,20 @@ import { Person } from "../types";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import ModalComponent from "../components/Modal";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { RootStackParamList } from "../App";
+import { Trash, Trash2 } from "lucide-react-native";
+// import { StackParamList } from "../App";
 
-type Props = {
-  navigation: any;
-  route: any;
-};
-
-const PeopleScreen = ({ navigation }: Props) => {
-  const [data, saveData, removePerson] = useMyData();
+type PeopleScreenRouteProp = RouteProp<RootStackParamList, "People">;
+const PeopleScreen = () => {
+  const { data, saveData, removePerson } = useMyData();
   const [refreshing, setRefreshing] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const route = useRoute<PeopleScreenRouteProp>();
+  const id = route?.params?.id;
+  console.log(`PeopleScreen route: ${JSON.stringify(route)}`);
 
   let person = data?.person ?? [];
 
@@ -39,19 +42,23 @@ const PeopleScreen = ({ navigation }: Props) => {
 
   const RightAction = (id: string) => {
     return () => (
-      <View style={styles2.rightAction}>
+      <View style={[styles2.rightAction, {borderRadius:8,marginLeft:10}]}>
         <TouchableOpacity onPress={() => deleteConfirmation(id)}>
-          <Text style={styles2.actionText}>Delete</Text>
+          <View  style={{gap:10, alignContent:'center'}}>
+            <Trash2 size={40} color="#FFF"  />
+            <Text style={styles2.actionText}>Delete</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
   };
 
   const renderPerson = ({ item }: { item: Person }) => (
-    <View style={styles2.separator}>
+    <View style={{ marginVertical: 10 }}>
       <ReanimatedSwipeable
         renderRightActions={RightAction(item.id)}
         friction={3}
+        rightThreshold={50}
       >
         <PeopleRenderComponent people={item} />
       </ReanimatedSwipeable>
@@ -93,22 +100,22 @@ const PeopleScreen = ({ navigation }: Props) => {
         <Text style={textStyles.h2}>People List</Text>
       </View>
       <View style={styles.paddingContainer}>
-        <GestureHandlerRootView style={styles.container}>
-          <SafeAreaView>
-            {person.length ? (
-              <FlatList
-                data={person}
-                renderItem={renderPerson}
-                keyExtractor={(item) => item.id}
-                style={{ maxHeight: 525 }}
-              />
-            ) : (
-              <Text style={textStyles.p}>
-                No people added yet, add a person now!
-              </Text>
-            )}
-          </SafeAreaView>
-        </GestureHandlerRootView>
+        {/* <GestureHandlerRootView style={styles.container}> */}
+        {/* <SafeAreaView> */}
+        {person.length ? (
+          <FlatList
+            data={person}
+            renderItem={renderPerson}
+            keyExtractor={(item) => item.id}
+            style={{ maxHeight: 525 }}
+          />
+        ) : (
+          <Text style={textStyles.p}>
+            No people added yet, add a person now!
+          </Text>
+        )}
+        {/* </SafeAreaView> */}
+        {/* </GestureHandlerRootView> */}
       </View>
     </SafeAreaView>
   );
@@ -127,13 +134,5 @@ const styles2 = StyleSheet.create({
   actionText: {
     color: "white",
     fontWeight: "600",
-  },
-  swipeable: {
-    // backgroundColor: 'papayawhip',
-  },
-  separator: {
-    width: "100%",
-    borderTopWidth: 1,
-    borderColor: "#ccc", // Changed to a neutral color
   },
 });

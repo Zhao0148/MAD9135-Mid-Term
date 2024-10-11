@@ -3,16 +3,12 @@ import { Platform, StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    // alignItems: "flex-start",
-    // marginTop: 16,
-    // marginHorizontal: 16,
-    // justifyContent: "center",
-    // height: "100%",
     width: "100%",
     backgroundColor: "#fff",
   },
   paddingContainer: {
-    paddingHorizontal: 16, paddingVertical: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     width: "100%",
   },
   marginHorizontal: {
@@ -23,11 +19,11 @@ export const styles = StyleSheet.create({
 
 export const textStyles = StyleSheet.create({
   h2: {
-    color: "black",
-    fontFamily: "monospace",
-    fontSize: 32,
-    textAlign: "center",
-    paddingTop: 16,
+    fontSize: 34,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+    marginTop: 15,
   },
   h3: {
     paddingTop: 4,
@@ -44,11 +40,10 @@ export const textStyles = StyleSheet.create({
     fontFamily: "monospace",
   },
   p: {
-    color: "grey",
-    fontSize: 16,
-    paddingBottom: 10,
-    fontFamily: "monospace",
-    marginVertical: 10,
+    fontSize: 17,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 8,
   },
   textContainer: {
     flexDirection: "column",
@@ -57,66 +52,10 @@ export const textStyles = StyleSheet.create({
     display: "flex",
     marginTop: 10,
   },
-  customPersonParagraph:{
+  customPersonParagraph: {
     color: "grey",
     fontSize: 16,
     fontFamily: "monospace",
-    // marginVertical: 1,
-  }
-});
-
-export const buttonStyles = StyleSheet.create({
-  button: {
-    backgroundColor: "white",
-    justifyContent: "center",
-    paddingHorizontal: 21,
-    paddingVertical: 8,
-    borderRadius: 6,
-    marginTop: 8,
-    alignSelf: "center",
-    marginRight: 8,
-    marginLeft: 8,
-  },
-  buttonText: {
-    color: "black",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    position: "relative",
-    marginBottom: 10,
-  },
-  absoluteButton: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-});
-
-export const headerStyles = StyleSheet.create({
-  header: {
-    backgroundColor: "#26653A",
-  },
-  headerTitle: {
-    color: "white",
-  },
-  headerRightButton: {
-    // backgroundColor: "#fff",
-    marginRight: 10,
-    color: "white",
-  },
-  headerLeftButton: {
-    backgroundColor: "#fff",
-    marginLeft: 25,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-  },
-  headerText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-    padding: 10,
   },
 });
 
@@ -187,8 +126,7 @@ export const cameraStyles = StyleSheet.create({
   cameraView: {
     width: "100%",
     height: "100%",
-    flex: 1,    
-
+    flex: 1,
   },
   selectedImageContainer: {
     justifyContent: "center",
@@ -200,7 +138,7 @@ export const cameraStyles = StyleSheet.create({
     borderRadius: 10,
   },
   saveButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#000000",
     borderRadius: 15,
     paddingVertical: 16,
     paddingHorizontal: 24,
@@ -208,18 +146,13 @@ export const cameraStyles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 10,
     minWidth: 120,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
   },
   saveButtonText: {
     color: "white",
     fontSize: 16,
   },
   retakeButtonText: {
-    color: "#007AFF",
+    color: "#000000",
     fontSize: 16,
   },
   secondaryButton: {
@@ -232,28 +165,23 @@ export const cameraStyles = StyleSheet.create({
     marginVertical: 10,
     minWidth: 120,
     borderWidth: 1,
-    borderColor: "#007AFF",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    borderColor: "#000000",
   },
 });
 
 export const modalStyles = StyleSheet.create({
   modalPosition: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
     borderRadius: 14,
-    alignItems: 'center',
+    alignItems: "center",
     width: 270,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -266,66 +194,61 @@ export const modalStyles = StyleSheet.create({
   modalText: {
     fontSize: 13,
     marginBottom: 20,
-    textAlign: 'center',
-    color: '#666',
+    textAlign: "center",
+    color: "#666",
     paddingHorizontal: 20,
   },
   modalButton: {
-    width: '100%',
-    textAlign: 'center',
+    width: "100%",
+    textAlign: "center",
     paddingVertical: 12,
     borderTopWidth: 0.4,
-    borderTopColor: '#ccc',
+    borderTopColor: "#ccc",
     paddingHorizontal: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalTitle: {
     fontSize: 17,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalAcknowledgement: {
     fontSize: 13,
-    color: '#0E7AFE',
-    textAlign: 'center',
-    fontWeight: '600',
+    color: "#0E7AFE",
+    textAlign: "center",
+    fontWeight: "600",
     paddingHorizontal: 20,
-    
-  }
-})
-
+  },
+});
 
 export const ideaListStyles = StyleSheet.create({
   card: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    padding: 16,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 24,
+    paddingHorizontal: 24,
+    borderBottomWidth: 10,
+    borderBottomColor: "#222",
+    backgroundColor: "#dedede",
+    borderRadius: 8,
   },
   contentContainer: {
+    flex: 1,
     flexDirection: "row",
-    alignItems: "center",
+    backgroundColor: "#000",
   },
   image: {
     borderRadius: 8,
-    marginRight: 16,
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
   },
   textContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
   title: {
     fontSize: 17,
@@ -335,8 +258,63 @@ export const ideaListStyles = StyleSheet.create({
     fontFamily: Platform.OS === "ios" ? "System" : "Roboto",
   },
   description: {
+    marginTop: 10,
     fontSize: 15,
     color: "#666666",
     fontFamily: Platform.OS === "ios" ? "System" : "Roboto",
+  },
+});
+
+export const PhotoModalStyles = StyleSheet.create({
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "#FFF",
+  },
+  modalImage: {
+    borderRadius: 16,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: 20,
+    padding: 8,
+  },
+});
+export const buttonStyles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 30,
+  },
+  button: {
+    borderRadius: 10,
+    padding: 15,
+    width: "48%",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  cancelButton: {
+    backgroundColor: "#E0E0E0",
+  },
+  cancelButtonText: {
+    color: "#000000",
+  },
+  saveButton: {
+    backgroundColor: "#000000",
+  },
+  saveButtonText: {
+    color: "#FFFFFF",
   },
 });

@@ -1,7 +1,7 @@
 import { CameraType, useCameraPermissions, CameraView } from "expo-camera";
 import type { CameraPictureOptions, ImageSize } from "expo-camera";
 import { Image } from "expo-image";
-import { CameraIcon } from "lucide-react-native";
+import { CameraIcon, X } from "lucide-react-native";
 import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -11,6 +11,8 @@ import {
   View,
   TextInput,
   Pressable,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useMyData } from "../Providers";
 import * as ImagePicker from "expo-image-picker";
@@ -23,21 +25,19 @@ import {
   Person,
 } from "../types";
 import { randomUUID } from "expo-crypto";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackNavigationProp } from "../App";
+import ModalComponent from "./Modal";
 
-export default function CameraComponent({
-  personId,
-  navigation,
-}: {
-  personId: string;
-  navigation: any;
-}) {
+export default function CameraComponent({ personId }: { personId: string }) {
+  const navigation = useNavigation<RootStackNavigationProp>();
   const [permission, requestPermission] = useCameraPermissions();
   const [currentPictureResolution, setCurrentPictureResolution] =
     useState<ImageSize>({
       width: 1080,
       height: 1920,
     });
-  const [data, saveData] = useMyData();
+  const { data, saveData, updateGift } = useMyData();
   const camera = useRef<CameraView | null>(null);
   const [cameraReady, setCameraReady] = useState<boolean>(false);
   const [facing, setFacing] = useState<CameraType>("back");
@@ -45,7 +45,7 @@ export default function CameraComponent({
   const [image, setImage] = useState<string | null>(null);
   const [giftDescription, setGiftDescription] = useState("");
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
-
+  const [isModalVisible, setModalVisible] = useState(false);
   if (!permission) {
     return <View />;
   }
@@ -58,37 +58,22 @@ export default function CameraComponent({
       </View>
     );
   }
-  function saveGift({ id }: { id: string }) {
-    if (!imagePreview) {
-      alert("No image to save.");
-      return;
-    }
-    if (!giftDescription) {
-      alert("No description to save.");
-      return;
-    }
 
-    const giftModel: IdeaArrayObject = {
+  function saveGift({ id }: { id: string }) {
+    const giftConfig: IdeaArrayObject = {
       giftId: randomUUID(),
       giftDescription,
       image: imagePreview,
       width: currentPictureResolution.width,
       height: currentPictureResolution.height,
     };
-    const getPersonNameById = data.person.find(
-      (person: Person) => person.id === id
-    );
-    const insertIdeas = getPersonNameById?.ideas || [];
-    const updatedIdeas = [...insertIdeas, giftModel];
-    const updatedPerson = { ...getPersonNameById, ideas: updatedIdeas };
-    const updatedPeople = data.person.map((person: Person) =>
-      person.id === id ? updatedPerson : person
-    );
-    saveData("person", updatedPeople);
-    setImagePreview(null);
-    setGiftDescription("");
-    navigation.navigate("People", { id });
-    // navigation.goBack();
+    updateGift({ personId: id, giftConfig })
+      .then(() => {
+        setImagePreview(null);
+        setGiftDescription("");
+        navigation.navigate("Ideas", { id: personId });
+      })
+      .catch(() => setModalVisible(true));
   }
 
   const takePicture = async () => {
@@ -112,10 +97,8 @@ export default function CameraComponent({
           const [width, height] = res.split("x").map(Number);
           return { width: height, height: width };
         });
-        console.log("resolutionForVertical", resolutionForVertical);
         const preferredResolution =
           resolutionForVertical[1] || resolutionForVertical[0];
-        console.log("preferredResolution", preferredResolution);
         setCurrentPictureResolution(preferredResolution);
         await saveData("currentImageDimension", {
           imageDimensions: preferredResolution,
@@ -166,11 +149,26 @@ export default function CameraComponent({
 
   return (
     <View style={styles.paddingContainer}>
-      <TextInput
-        style={cameraStyles.textInput}
-        onChangeText={(text) => setGiftDescription(text)}
-        placeholder="Gift Idea"
-      />
+      {isModalVisible && (
+        <ModalComponent
+          isModalVisible={true}
+          onConfirm={() => setModalVisible(false)}
+          titleText="Missing Field"
+          bodyText="Fill in the missing fields"
+        />
+      )}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <TextInput
+          style={cameraStyles.textInput}
+          onChangeText={setGiftDescription}
+          placeholder="Gift Idea"
+          autoCorrect={false}
+          value={giftDescription}
+        />
+      </KeyboardAvoidingView>
       <View
         style={[
           cameraStyles.cameraContainer,
@@ -216,22 +214,6 @@ export default function CameraComponent({
           </CameraView>
         )}
       </View>
-      {/* {image && (
-        <View
-          style={[
-            cameraStyles.selectedImageContainer,
-            { width: cameraWidth, height: cameraHeight },
-          ]}
-        >
-          <Image
-            source={{ uri: image }}
-            style={[
-              cameraStyles.selectedImage,
-              { width: cameraWidth, height: cameraHeight },
-            ]}
-          />
-        </View>
-      )} */}
 
       {imagePreview ? (
         <View
@@ -256,7 +238,28 @@ export default function CameraComponent({
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "red",
+              borderRadius: 50,
+              width: 50,
+              height: 50,
+              marginBottom: 20,
+            }}
+            onPress={() => navigation.navigate("Ideas", { id: personId })}
+          >
+            <X size={24} color={"white"} />
+          </TouchableOpacity>
           <TouchableOpacity
             style={{
               justifyContent: "center",
@@ -270,7 +273,6 @@ export default function CameraComponent({
             onPress={takePicture}
           >
             <CameraIcon size={24} color={"black"} />
-            {/* <Text style={cameraStyles.text}>Take Picture</Text> */}
           </TouchableOpacity>
         </View>
       )}

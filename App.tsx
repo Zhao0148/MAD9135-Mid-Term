@@ -1,94 +1,97 @@
+import React from "react";
+import { Pressable, Text } from "react-native";
 import {
   NavigationContainer,
-  useNavigation,
   NavigationProp,
+  RouteProp,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddIdeaScreen from "./pages/AddIdeaScreen";
 import AddPersonScreen from "./pages/AddPersonScreen";
-import { MyDataProvider } from "./Providers";
 import IdeaScreen from "./pages/IdeaScreen";
 import PeopleScreen from "./pages/PeopleScreen";
-import { Pressable, Text } from "react-native";
-import { headerStyles, textStyles } from "./styles";
-import React from "react";
-
-export type StackParamList = {
-  Home: undefined;
-  Ideas: { id: string };
+import { MyDataProvider } from "./Providers";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+export type RootStackParamList = {
+  People: { id: string } | undefined;
+  Ideas: { id: string } | undefined;
   AddPerson: undefined;
-  AddIdea: undefined;
-  Root: undefined;
+  AddIdea: { id: string };
 };
 
-export type StackNavigationProp = NavigationProp<StackParamList>;
-const Stack = createNativeStackNavigator<StackParamList>();
-const Drawer = createNativeStackNavigator();
-function Root() {
-  const navigation = useNavigation<StackNavigationProp>();
-  return (
-    <Drawer.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: "indigo" },
-        headerTintColor: "white",
-      }}
-    >
-      <Drawer.Screen
-        name="People"
-        component={PeopleScreen}
-        options={{
-          headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("AddPerson")}>
-              <Text style={headerStyles.headerRightButton}>Add Person</Text>
-            </Pressable>
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="Ideas"
-        component={IdeaScreen}
-        options={({ navigation, route }) => ({
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("AddIdea", route.params)}
-            >
-              <Text style={headerStyles.headerRightButton}>Add Idea</Text>
-            </Pressable>
-          ),
-        })}
-      />
-    </Drawer.Navigator>
-  );
-}
+export type RootStackNavigationProp = NavigationProp<RootStackParamList>;
+export type IdeasScreenRouteProp = RouteProp<RootStackParamList, "Ideas">;
+export type AddIdeaScreenRouteProp = RouteProp<RootStackParamList, "AddIdea">;
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <MyDataProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "indigo" },
-            headerTintColor: "white",
-          }}
-          initialRouteName="Root"
-        >
-          <Stack.Screen
-            name="Root"
-            component={Root}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AddPerson"
-            component={AddPersonScreen}
-            options={{ headerBackTitle: "People", headerTitle: "Add Person" }}
-          />
-          <Stack.Screen
-            name="AddIdea"
-            component={AddIdeaScreen}
-            options={{ headerBackTitle: "People", headerTitle: "Add Idea" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "indigo" },
+              headerTintColor: "white",
+            }}
+            initialRouteName="People"
+          >
+            <Stack.Screen
+              name="People"
+              component={PeopleScreen}
+              options={({ navigation }) => ({
+                title: "People",
+                headerRight: () => (
+                  <Pressable onPress={() => navigation.navigate("AddPerson")}>
+                    <Text style={{ marginRight: 10, color: "white" }}>
+                      Add Person
+                    </Text>
+                  </Pressable>
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="Ideas"
+              component={IdeaScreen}
+              options={({ navigation, route }) => ({
+                title: "Ideas",
+                headerRight: () => (
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate("AddIdea", {
+                        id: route.params?.id || "",
+                      })
+                    }
+                  >
+                    <Text style={{ marginRight: 10, color: "white" }}>
+                      Add Idea
+                    </Text>
+                  </Pressable>
+                ),
+              })}
+            />
+
+            <Stack.Screen
+              name="AddPerson"
+              component={AddPersonScreen}
+              options={{
+                title: "Add Person",
+                headerBackTitle: "People",
+              }}
+            />
+
+            <Stack.Screen
+              name="AddIdea"
+              component={AddIdeaScreen}
+              options={{
+                title: "Add Idea",
+                headerBackTitle: "Ideas",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </MyDataProvider>
   );
 }

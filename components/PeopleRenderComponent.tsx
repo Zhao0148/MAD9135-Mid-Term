@@ -1,10 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { textStyles } from "../styles";
-import { Lightbulb } from "lucide-react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { StackNavigationProp } from "../App";
+import { ideaListStyles, PhotoModalStyles, textStyles } from "../styles";
+import { GiftIcon } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import { useMyData } from "../Providers";
+import { RootStackNavigationProp } from "../App";
 
 type Props = {
   people: {
@@ -14,10 +15,10 @@ type Props = {
   };
 };
 const PeopleRenderComponent = ({ people }: Props) => {
-  const [clearAllData] = useMyData();
+  const { clearAllData } = useMyData();
   try {
     // clearAllData("person");
-    const navigation = useNavigation<StackNavigationProp>();
+    const navigation = useNavigation<RootStackNavigationProp>();
     const { name, dob, id } = people;
     const options: Intl.DateTimeFormatOptions = {
       month: "long",
@@ -30,14 +31,20 @@ const PeopleRenderComponent = ({ people }: Props) => {
     );
 
     return (
-      <View style={styles.personItem}>
-        <View style={styles.textContainer}>
+      <View style={ideaListStyles.card}>
+        <View>
           <Text style={textStyles.h4}>{name}</Text>
           <Text style={textStyles.customPersonParagraph}>{formattedDob}</Text>
         </View>
-        <View style={styles.iconContainer}>
+        <View
+          style={[
+            styles.iconContainer,
+            PhotoModalStyles.closeButton,
+            { top: 23, backgroundColor: "rgba(0, 0, 0, 0.9)" },
+          ]}
+        >
           <Pressable onPress={() => navigation.navigate("Ideas", { id })}>
-            <Lightbulb size={40} color="#000" />
+            <GiftIcon size={40} color="#ffdf3d" />
           </Pressable>
         </View>
       </View>
@@ -58,10 +65,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 24,
     paddingHorizontal: 24,
-    // borderBottomWidth: 2,
-    borderBottomColor: "#E0E0E0",
-    backgroundColor: "#E0E0E0",
-    // marginVertical: 8,
+    borderBottomWidth: 5,
+    borderBottomColor: "#222",
+    backgroundColor: "#dedede",
   },
   iconContainer: {
     maxWidth: 300,

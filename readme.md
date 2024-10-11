@@ -39,22 +39,22 @@
 - [X] When taking the picture use the .getAvailablePictureSizesAsync() method to control the sizes used by the camera. See the notes in module 7.1 about this.
 - [X] When returning from this screen to the PersonScreen be sure to navigate and send the person id back through Route params.
 - [X] Make sure that both the text and the image values are provided before you save the idea.
-- [ ] The validation and saving should be done in a function inside the Context object.
-- [ ] There should be a Save and a Cancel button on the screen.
-- [ ] The Cancel button will send the user back to the PersonScreen without saving anything. However, you still need to pass the person id back through the Route params.
-- [ ] Use KeyboardAvoidingView around each control in your form.
+- [X] The validation and saving should be done in a function inside the Context object.
+- [X] There should be a Save and a Cancel button on the screen.
+- [X] The Cancel button will send the user back to the PersonScreen without saving anything. However, you still need to pass the person id back through the Route params.
+- [X] Use KeyboardAvoidingView around each control in your form.
 
 ## General Features
 - [X] There needs to be a single Stack.Navigator that loads the four screens.
 - [X] There needs to be a single Context object that has a Provider in App.js wrapped around the Navigation stack.
-- [ ] All the functionality for validating and saving data in the Context object needs to be done inside functions that are inside of the Context Provider function and made available through the context hook.
-- [ ] All errors, confirmations, and warnings should be displayed through a Modal component. A good approach would be to create a component file for the Modal. Pass the type and message and buttons and functions to the component to customize the modal. Just import the component on each screen that needs it.
+- [X] All the functionality for validating and saving data in the Context object needs to be done inside functions that are inside of the Context Provider function and made available through the context hook.
+- [X] All errors, confirmations, and warnings should be displayed through a Modal component. A good approach would be to create a component file for the Modal. Pass the type and message and buttons and functions to the component to customize the modal. Just import the component on each screen that needs it.
 - [X] Every person and every gift need a unique id. You can use the expo-crypto module to generate the id with the randomUUID method.
 - [ ] Your app should have a custom SplashScreen and Launcher icon. You can use the Figma template from the link in module 5.2 to create these.
 
 ## Optional Features (Choose TWO)
 - [X] Add a Swipeable to the FlatList on the PeopleScreen page which will expose a delete button. When pressed, the button will call an async function in the Context object to delete a person. When successful the list should automatically update itself.
-- [ ] Tap image thumbnail to view in fullsized modal from the FlatList on the IdeaScreen page AND show the preview image on the AddIdeaScreen while taking the picture.
+- [X] Tap image thumbnail to view in fullsized modal from the FlatList on the IdeaScreen page AND show the preview image on the AddIdeaScreen while taking the picture.
 - [ ] Implement a UI Kit on all screens. Use React Native Elements or React Native Paper or GlueStack.
 - [ ] Change the navigation between the list and add screens based on the OS. If Android, use a FAB to go to the screen for adding a person or adding an idea. If on iOS, use the header link.
 - [ ] After pictures are taken with the Camera, move them from the cache folder to the document folder for the app. This will make them a permanent image available the next time the app opens. See the notes in the Module 4.1 notes on how to use the FileSystem.moveAsync method to move the image file. When deleting an idea be sure to use the FileSystem.deleteAsync method to delete the image file too.

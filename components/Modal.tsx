@@ -4,7 +4,7 @@ import { modalStyles } from "../styles";
 
 type Props = {
   isModalVisible: boolean;
-  setModalVisible: (visible: boolean) => void;
+  setModalVisible?: (visible: boolean) => void;
   titleText?: string;
   bodyText?: string;
   onConfirm?: () => void;
@@ -24,14 +24,14 @@ const ModalComponent = ({
       animationType="fade"
       transparent={true}
       visible={isModalVisible}
-      onRequestClose={() => setModalVisible(false)}
+      onRequestClose={() => onCancel}
     >
       <View style={modalStyles.modalPosition}>
         <View style={modalStyles.modalContainer}>
           <Text style={modalStyles.modalTitle}>{titleText}</Text>
           <Text style={modalStyles.modalText}>{bodyText}</Text>
           {!onCancel ? (
-            <Pressable style={[modalStyles.modalButton]}>
+            <Pressable style={[modalStyles.modalButton]} onPress={onConfirm}>
               <Text style={modalStyles.modalAcknowledgement}>OK</Text>
             </Pressable>
           ) : (

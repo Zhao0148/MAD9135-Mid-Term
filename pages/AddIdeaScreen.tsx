@@ -1,43 +1,24 @@
 // AddIdeaScreen - add a new idea object inside the ideas array for a selected person.
 
-import React, { useEffect, useState, useRef } from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
 import {
-  Button,
   SafeAreaView,
-  StyleSheet,
   Text,
   View,
-  Pressable,
-  TextInput,
-  Platform,
-  Dimensions,
-  Image,
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import { buttonStyles, styles, textStyles } from "../styles";
+import {  styles, textStyles } from "../styles";
 import { useMyData } from "../Providers";
-import IdeaTextInput from "../components/IdeaTextInput";
-import * as ImagePicker from "expo-image-picker";
 import CameraComponent from "../components/Camera";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { StackParamList } from "../App";
-import { useNavigation } from "@react-navigation/native";
-// import { CameraType } from "expo-camera";
-// type CameraType = "back" | "front";
-type Props = {
-  navigation: any;
-  route: any;
-};
+import { useRoute } from "@react-navigation/native";
+import { AddIdeaScreenRouteProp} from "../App";
 
-type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
-const AddIdeaScreen = ({}: Props) => {
-  const navigation = useNavigation();
-  const [data, saveData] = useMyData();
-  const route = useRoute<IdeasScreenRouteProp>();
+
+const AddIdeaScreen = () => {
+  const {data, saveData} = useMyData();
+  const route = useRoute<AddIdeaScreenRouteProp>();
   const { id } = route.params;
-  console.log(`AddIdeaScreen ids: ${id}`);
   const screen = useWindowDimensions();
   useEffect(() => {
     calculateImageDimensions();
@@ -63,7 +44,7 @@ const AddIdeaScreen = ({}: Props) => {
           <Text>{"Gift Idea"}</Text>
         </View>
         {data?.cameraImageDimension && (
-          <CameraComponent personId={id} navigation={navigation} />
+          <CameraComponent personId={id}  />
         )}
         <View></View>
       </ScrollView>

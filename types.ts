@@ -6,7 +6,7 @@ import type ImageManipulator from "expo-image-manipulator";
  * @typedef  {Object} imagePreview
  */
 export type ImagePreview = {
-  uri: string;
+  uri: string
 };
 
 /**
@@ -21,7 +21,7 @@ export type ImagePreview = {
 export type IdeaArrayObject = {
   giftId: string;
   giftDescription: string;
-  image: ImagePreview;
+  image: ImagePreview | null;
   width: number;
   height: number;
 };

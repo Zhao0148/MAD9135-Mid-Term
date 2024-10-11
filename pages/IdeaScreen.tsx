@@ -1,93 +1,122 @@
-// IdeaScreen - list the name and image for each idea belonging to a selected person.
-
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
-  Pressable,
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { buttonStyles, textStyles } from "../styles";
+
+import { textStyles, styles } from "../styles";
 import { useMyData } from "../Providers";
-import { RouteParams } from "expo-router";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { StackParamList } from "../App";
-import { styles } from "../styles";
+import { useRoute } from "@react-navigation/native";
 import ListItemIdeas from "../components/ListItem";
 import { IdeaArrayObject, Person } from "../types";
-import {
-  GestureHandlerRootView,
-  Swipeable,
-} from "react-native-gesture-handler";
-type IdeasScreenRouteProp = RouteProp<StackParamList, "Ideas">;
-
-type Props = {
-  navigation: any;
-  route: any;
-};
-
-const IdeaScreen = ({ navigation }: Props) => {
-  const [data, saveData] = useMyData();
+import { IdeasScreenRouteProp } from "../App";
+import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { Trash2 } from "lucide-react-native";
+import ModalComponent from "../components/Modal";
+const IdeaScreen = () => {
   const route = useRoute<IdeasScreenRouteProp>();
-  const { id } = route.params;
-  // navigation.setParams({
-  //   id,
-  // });
-
+  const { data, removeGift } = useMyData();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedGiftId, setSelectedGiftId] = useState<string | null>(null);
+  const id = route?.params?.id;
   const person = data?.person ?? [];
-  const getPersonNameById: Person = person.find(
+  const getPersonNameById: Person | undefined = person.find(
     (person: Person) => person.id === id
   );
-  // const personIdeas = getPersonNameById?.ideas ?? [];
-  console.log(
-    `getPersonNameById`,
-    JSON.stringify(getPersonNameById.ideas, null, 2)
-  );
-  // console.log(`IdeaScreen id: ${id}`);
-  // let person = data?.person ?? [];
-  // if (data) {
-  //   console.log("personIdeas", person);
-  //   data.person = data.person.filter((person) => person.id === id);
-  //   // console.log("data.personInIdea", data.person);
-  // }
-  console.log("data?.people", data?.person);
-  const renderIdeas = ({ item }: { item: IdeaArrayObject }) => (
-    <ListItemIdeas ideas={item} />
-  );
 
+  const RightAction = (id: string | null) => {
+    return () => (
+      <View
+        style={[
+          {
+            width: 80,
+            height: "100%",
+            backgroundColor: "red",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          { borderRadius: 8, marginLeft: 10 },
+        ]}
+      >
+        <TouchableOpacity onPress={() => deleteConfirmation(id)}>
+          <View style={{ gap: 10, alignContent: "center" }}>
+            <Trash2 size={40} color="#FFF" />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "600",
+              }}
+            >
+              Delete
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderIdeas = ({ item }: { item: IdeaArrayObject }) => (
+    <View style={styles.paddingContainer}>
+      <ReanimatedSwipeable
+        renderRightActions={RightAction(item.giftId)}
+        friction={3}
+        rightThreshold={50}
+      >
+        <ListItemIdeas ideas={item} />
+      </ReanimatedSwipeable>
+    </View>
+  );
+  const deleteConfirmation = (id: string | null) => {
+    setSelectedGiftId(id);
+    setModalVisible(true);
+  };
+
+  const confirmDelete = () => {
+    if (selectedGiftId) {
+      removeGift(getPersonNameById?.id, selectedGiftId);
+      setSelectedGiftId(null);
+      setModalVisible(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setSelectedGiftId(null);
+    setModalVisible(false);
+  };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container]}>
+      {isModalVisible && selectedGiftId && (
+        <ModalComponent
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          titleText="Delete Confirmation"
+          bodyText="Are you sure you want to delete this person?"
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
       <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
         <Text
           style={textStyles.h2}
         >{`Ideas for ${getPersonNameById?.name}`}</Text>
       </View>
       <View style={styles.paddingContainer}>
-        {getPersonNameById?.ideas?.length !== 0 ? (
-          <Text>{`${getPersonNameById.ideas.length}`}</Text>
-        ) : (
+        {getPersonNameById?.ideas?.length === 0 && (
           <Text>{`There are currently no ideas for ${getPersonNameById?.name}`}</Text>
         )}
       </View>
-      <View>
-        <View>
-          <FlatList
-            data={getPersonNameById.ideas}
-            renderItem={renderIdeas}
-            keyExtractor={(item) => item.giftId}
-            style={{ maxHeight: 525 }}
-          />
-
-          {/* <Text style={buttonStyles.buttonText}>{""}</Text> */}
-        </View>
-        {/* <Text style={buttonStyles.buttonText}>{"Delete Idea"}</Text> */}
-      </View>
-    </SafeAreaView>
+      <FlatList
+        data={getPersonNameById?.ideas ?? []}
+        renderItem={renderIdeas}
+        keyExtractor={(item) => item.giftId}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
+    </View>
   );
 };
 
