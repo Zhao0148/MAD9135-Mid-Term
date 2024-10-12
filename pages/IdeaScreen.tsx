@@ -107,7 +107,7 @@ const IdeaScreen = () => {
       </View>
       <View style={styles.paddingContainer}>
         {getPersonNameById?.ideas?.length === 0 && (
-          <Text>{`There are currently no ideas for ${getPersonNameById?.name}`}</Text>
+          <Text>{`You haven't added any gift ideas for ${getPersonNameById?.name} yet.`}</Text>
         )}
       </View>
       <FlatList

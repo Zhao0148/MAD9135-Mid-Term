@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Button,
   Text,
   TouchableOpacity,
   View,
@@ -25,7 +24,7 @@ import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 // Local imports
 import { useMyData } from "../Providers";
-import { cameraStyles, styles, stylesInput, touchableBtn } from "../styles";
+import { buttonStyles, cameraStyles, styles, stylesInput, touchableBtn } from "../styles";
 import { IdeaArrayObject, ImagePreview, ManipulatedImage } from "../types";
 import ModalComponent from "./Modal";
 import { RootStackNavigationProp } from "../App";
@@ -56,9 +55,11 @@ export default function CameraComponent({ personId }: { personId: string }) {
 
   if (!permission.granted) {
     return (
-      <View style={styles.container}>
+      <View style={styles.paddingContainer}>
         <Text>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Pressable style={[buttonStyles.button, {backgroundColor:"black",marginTop:10}]} onPress={requestPermission}  >
+          <Text style={buttonStyles.saveButtonText}>Grant Permission</Text>
+        </Pressable>
       </View>
     );
   }
@@ -105,12 +106,12 @@ export default function CameraComponent({ personId }: { personId: string }) {
           .takePictureAsync(options)
           .then(async (photo) => {
             if (photo) {
-              const finalUri = await manipulateImage(
+              const fullUri = await manipulateImage(
                 photo.uri,
                 photo.exif.Orientation,
                 preferredResolution.width
               );
-              setImagePreview({ uri: finalUri });
+              setImagePreview({ uri: fullUri });
             }
           })
           .catch((err) => console.warn(err.message));
@@ -197,7 +198,7 @@ export default function CameraComponent({ personId }: { personId: string }) {
                 setCameraReady(true);
               }}
             >
-              <View style={cameraStyles.buttonContainer}>
+              <View style={[cameraStyles.buttonContainer,{backgroundColor: isTakingPicture ? "rgba(0, 0, 0, 0.8)": "transparent" }]}>
                 {isTakingPicture && (
                   <View style={cameraStyles.loadingContainer}>
                     <ActivityIndicator size="large" color="#fff" />

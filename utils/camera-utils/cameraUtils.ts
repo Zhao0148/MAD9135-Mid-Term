@@ -37,13 +37,13 @@ export function correctOrientation(orientation: number) {
   
     const filename = `${randomUUID()}.png`;
     const imageDir = `${FileSystem.documentDirectory}images/`;
-    const finalPath = `${imageDir}${filename}`;
+    const fullPath = `${imageDir}${filename}`;
   
     const dirInfo = await FileSystem.getInfoAsync(imageDir);
     if (!dirInfo.exists) {
       await FileSystem.makeDirectoryAsync(imageDir, { intermediates: true });
     }
   
-    await FileSystem.moveAsync({ from: rotatedPhotoUri, to: finalPath });
-    return finalPath;
+    await FileSystem.moveAsync({ from: rotatedPhotoUri, to: fullPath });
+    return fullPath;
   };

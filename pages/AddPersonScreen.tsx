@@ -46,8 +46,12 @@ const AddPersonScreen = () => {
     await saveData("person", updatedPersons);
     navigation.navigate("People");
   };
+  const originalConsoleError = console.error;
 
-
+  console.error = (...args: any[]) => {
+    if (/defaultProps/.test(args[0])) return;
+    originalConsoleError(...args);
+  };
   useEffect(() => {
     // console.log(`text: ${name}`);
   }, [onChangeName, name]);
