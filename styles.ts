@@ -318,3 +318,28 @@ export const buttonStyles = StyleSheet.create({
     color: "#FFFFFF",
   },
 });
+
+export const touchableBtn = StyleSheet.create({
+  touchable: {
+    backgroundColor: "black",
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export const stylesInput = StyleSheet.create({
+  input: {
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    padding: 15,
+    fontSize: 17,
+    color: "#000",
+  },
+
+  inputContainer: {
+    marginBottom: 20,
+  },
+});

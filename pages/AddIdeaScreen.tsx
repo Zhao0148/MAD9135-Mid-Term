@@ -26,7 +26,7 @@ const AddIdeaScreen = () => {
 
   const calculateImageDimensions = async () => {
     const screenWidth = screen?.width;
-    const imageWidthPercentage = 0.7;
+    const imageWidthPercentage = 0.6;
     const imageWidth = Math.floor(screenWidth * imageWidthPercentage);
     const aspectRatio = 9 / 16;
     const imageHeight = Math.floor(imageWidth / aspectRatio);
@@ -40,8 +40,8 @@ const AddIdeaScreen = () => {
         <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
           <Text style={textStyles.h2}>{"Add Idea"}</Text>
         </View>
-        <View style={[styles.paddingContainer, { alignItems: "flex-start" }]}>
-          <Text>{"Gift Idea"}</Text>
+        <View style={[styles.paddingContainer, { alignItems: "flex-start",}]}>
+          <Text style={[textStyles.p]}>{"Gift Idea"}</Text>
         </View>
         {data?.cameraImageDimension && (
           <CameraComponent personId={id}  />

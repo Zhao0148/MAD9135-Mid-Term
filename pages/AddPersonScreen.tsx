@@ -14,7 +14,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
-import { buttonStyles, styles, textStyles } from "../styles";
+import { buttonStyles, styles, stylesInput, textStyles } from "../styles";
 import { useMyData } from "../Providers";
 import DatePicker from "react-native-modern-datepicker";
 import { randomUUID } from "expo-crypto";
@@ -130,18 +130,5 @@ const AddPersonScreen = () => {
 };
 
 export default AddPersonScreen;
-const stylesInput = StyleSheet.create({
-  input: {
-    backgroundColor: "#e0e0e0",
-    borderRadius: 10,
-    padding: 15,
-    fontSize: 17,
-    color: "#000",
-  },
-
-  inputContainer: {
-    marginBottom: 20,
-  },
-});
 
 

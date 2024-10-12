@@ -22,10 +22,10 @@ import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { CameraIcon, Images, X } from "lucide-react-native";
 import { Image } from "expo-image";
-
+import { StyleSheet } from "react-native";
 // Local imports
 import { useMyData } from "../Providers";
-import { cameraStyles, styles } from "../styles";
+import { cameraStyles, styles, stylesInput, touchableBtn } from "../styles";
 import { IdeaArrayObject, ImagePreview, ManipulatedImage } from "../types";
 import ModalComponent from "./Modal";
 import { RootStackNavigationProp } from "../App";
@@ -149,7 +149,7 @@ export default function CameraComponent({ personId }: { personId: string }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.paddingContainer}>
+      <View style={[styles.paddingContainer]}>
         {isModalVisible && (
           <ModalComponent
             isModalVisible={true}
@@ -159,7 +159,7 @@ export default function CameraComponent({ personId }: { personId: string }) {
           />
         )}
         <TextInput
-          style={cameraStyles.textInput}
+          style={[stylesInput.input,{marginBottom:25}]}
           onChangeText={setGiftDescription}
           placeholder="Gift Idea"
           autoCorrect={false}
@@ -244,46 +244,21 @@ export default function CameraComponent({ personId }: { personId: string }) {
             }}
           >
             <TouchableOpacity
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "red",
-                borderRadius: 50,
-                width: 50,
-                height: 50,
-                marginBottom: 20,
-              }}
+              style={[touchableBtn.touchable, { backgroundColor: "red" }]}
               onPress={() => navigation.navigate("Ideas", { id: personId })}
             >
               <X size={24} color={"white"} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "black",
-                borderRadius: 50,
-                width: 75,
-                height: 75,
-                marginBottom: 20,
-              }}
+              style={[touchableBtn.touchable, { width: 75, height: 75 }]}
               onPress={takePicture}
             >
               <CameraIcon size={42} color={"white"} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "green",
-                borderRadius: 50,
-                width: 50,
-                height: 50,
-                marginBottom: 20,
-              }}
+              style={touchableBtn.touchable}
               onPress={pickImage}
             >
-              {/* <Text style={{ color: "white" }}>Gallery</Text> */}
               <Images size={24} color={"white"} />
             </TouchableOpacity>
           </View>
