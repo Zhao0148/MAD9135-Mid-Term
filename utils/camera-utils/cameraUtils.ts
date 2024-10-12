@@ -32,7 +32,6 @@ export function correctOrientation(orientation: number) {
           { compress: 1, format: ImageManipulator.SaveFormat.PNG }
         );
         rotatedPhotoUri = manipulatedImage.uri;
-        console.log(`Rotated URI: ${JSON.stringify(manipulatedImage)}`);
       }
     }
   

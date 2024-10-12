@@ -27,7 +27,7 @@ const PeopleScreen = () => {
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
   const route = useRoute<PeopleScreenRouteProp>();
   const id = route?.params?.id;
-  console.log(`PeopleScreen route: ${JSON.stringify(route)}`);
+
 
   let person = data?.person ?? [];
 

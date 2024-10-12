@@ -50,7 +50,7 @@
 - [X] All the functionality for validating and saving data in the Context object needs to be done inside functions that are inside of the Context Provider function and made available through the context hook.
 - [X] All errors, confirmations, and warnings should be displayed through a Modal component. A good approach would be to create a component file for the Modal. Pass the type and message and buttons and functions to the component to customize the modal. Just import the component on each screen that needs it.
 - [X] Every person and every gift need a unique id. You can use the expo-crypto module to generate the id with the randomUUID method.
-- [ ] Your app should have a custom SplashScreen and Launcher icon. You can use the Figma template from the link in module 5.2 to create these.
+- [X] Your app should have a custom SplashScreen and Launcher icon. You can use the Figma template from the link in module 5.2 to create these.
 
 ## Optional Features (Choose TWO)
 - [X] Add a Swipeable to the FlatList on the PeopleScreen page which will expose a delete button. When pressed, the button will call an async function in the Context object to delete a person. When successful the list should automatically update itself.

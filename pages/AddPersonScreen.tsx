@@ -47,12 +47,9 @@ const AddPersonScreen = () => {
     navigation.navigate("People");
   };
 
-  useEffect(() => {
-    console.log(`selectedDate: ${selectedDate.replace(/\//g, "-")}`);
-  }, [setSelectedDate, selectedDate]);
 
   useEffect(() => {
-    console.log(`text: ${name}`);
+    // console.log(`text: ${name}`);
   }, [onChangeName, name]);
   return (
     <SafeAreaView style={styles.container}>

@@ -83,7 +83,6 @@ export default function CameraComponent({ personId }: { personId: string }) {
   const takePicture = async () => {
     try {
       if (!cameraReady) {
-        console.log("Camera is not ready yet.");
         return;
       }
       const options: CameraPictureOptions = {

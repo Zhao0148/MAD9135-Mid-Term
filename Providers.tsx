@@ -28,7 +28,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       const storageKey = `${APP_NAME}${key}`;
       await AsyncStorage.setItem(storageKey, JSON.stringify(newData));
       setData((prevData) => ({ ...prevData, [key]: newData ?? [] }));
-      console.log(`Storage key: ${key}:`, newData);
+
     } catch (error) {
       console.error(`Error saving data for ${key}:`, error);
     }
@@ -43,7 +43,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
         delete newData[key];
         return newData;
       });
-      console.log(`Data removed for ${key}`);
+
     } catch (error) {
       console.error(`Error removing data for ${key}:`, error);
     }
@@ -144,7 +144,7 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       const relevantKeys = keys.filter((key) => key.startsWith(APP_NAME));
       await AsyncStorage.multiRemove(relevantKeys);
       setData({});
-      console.log("All data cleared");
+
     } catch (error) {
       console.error("Error clearing data:", error);
     }
