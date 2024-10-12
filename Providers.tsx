@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IdeaArrayObject, Person } from "./types";
-
+import * as FileSystem from "expo-file-system";
 type DataType = { [key: string]: any };
 
 type ContextType = [DataType, any, any, any, any];
@@ -97,10 +97,18 @@ export function MyDataProvider({ children }: { children: ReactNode }) {
       }
       const updatedIdeas = person.ideas.filter(
         (idea: IdeaArrayObject) => idea.giftId !== giftId
-      );
+        );
+        const targetIdea = person.ideas.find(
+          (idea: IdeaArrayObject) => idea.giftId === giftId
+        );
+        console.log("updatedIdeas",targetIdea.image.uri)
       const updatedPerson = { ...person, ideas: updatedIdeas };
       const updatedPeople = data.person.map((person: Person) =>
         person.id === personId ? updatedPerson : person
+      );
+
+      await FileSystem.deleteAsync(
+        targetIdea.image.uri,
       );
       await saveData("person", updatedPeople);
     } catch (error) {
